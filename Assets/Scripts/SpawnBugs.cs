@@ -8,17 +8,25 @@ public class SpawnBugs : MonoBehaviour
     public int currentBugs;
     private GameObject _bug;
     private float _bugTimer;
+    private List<GameObject> _bugSpawners;
     
     void Start()
     {
         _bug = Resources.Load<GameObject>("Prefabs/Bug");
         StartCoroutine(CountBugs());
+        _bugSpawners = new List<GameObject>();
+        foreach (GameObject go in GameObject.FindGameObjectsWithTag("BugSpawner"))
+        {
+           _bugSpawners.Add(go); 
+        }
+
+        Debug.Log(_bugSpawners.Count);
     }
 
     
    void Update()
     {
-        if (currentBugs < bugsToSpawn && _bugTimer <= 0)
+        if (currentBugs < (bugsToSpawn * _bugSpawners.Count) && _bugTimer <= 0)
         {
             _bugTimer = 1;
             Instantiate(_bug, gameObject.transform.position, Quaternion.identity);

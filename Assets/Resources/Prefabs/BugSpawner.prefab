@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1773089056595789543}
   m_Layer: 0
   m_Name: BugSpawner
-  m_TagString: Untagged
+  m_TagString: BugSpawner
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -44,3 +44,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 398806cde4a1c7b40b0c8b6f35b0bf2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bugsToSpawn: 10
+  currentBugs: 0

@@ -8,6 +8,7 @@ TagManager:
   - Glass
   - FlatSurface
   - Bug
+  - BugSpawner
   layers:
   - Default
   - TransparentFX
