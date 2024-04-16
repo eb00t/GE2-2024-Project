@@ -8,11 +8,13 @@ public class RainbowFog : MonoBehaviour
     //private Color _colourA, _colourB;
     private float _r, _g, _b;
     private bool _rNeg, _gNeg, _bNeg;
+    private Camera _mainCamera;
     void Start()
     {
         _r = Random.Range(0f, 1f);
         _g = Random.Range(0f, 1f);
         _b = Random.Range(0f, 1f);
+        _mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
         Debug.Log("r: " + _r + " g: " + _g + " b: " + _b);
         /*_colourA = Random.ColorHSV();
         _colourB = Random.ColorHSV();*/
@@ -85,8 +87,7 @@ public class RainbowFog : MonoBehaviour
             _bNeg = false;
         }
         RenderSettings.fogColor = new Color(_r, _g, _b);
-        
-        
-        
+        RenderSettings.ambientLight = new Color(_r, _g, _b);
+        _mainCamera.backgroundColor = new Color(_r, _g, _b);
     }
 }
