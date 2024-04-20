@@ -18,6 +18,7 @@ public class BugAI : MonoBehaviour
     private int _randomLight, _randomGlass, _randomFlat;
     private Light _bugLight;
     private float _lerpTime = 5, _currentLerpTime;
+    private bool _landed;
     public enum WhatAmIDoing
     {
         Wandering,
@@ -54,6 +55,7 @@ public class BugAI : MonoBehaviour
         _randomFlat = Random.Range(0, _flats.Count);
         _behaviourNumber = Random.Range(0, 4);
         _bugLight = transform.GetChild(1).GetComponent<Light>();
+        _landed = false;
         StartCoroutine(Die());
     }
     
@@ -74,6 +76,7 @@ public class BugAI : MonoBehaviour
             _randomFlat = Random.Range(0, _flats.Count);
             changeStateTimer = Random.Range(15, 76);
             _behaviourNumber = Random.Range(0, 4);
+            _landed = false;
         }
 
         switch (_behaviourNumber)
@@ -95,6 +98,7 @@ public class BugAI : MonoBehaviour
         switch (doingWhat)
         {
             case WhatAmIDoing.SeekLight:
+                _obstacleAvoidance.enabled = true;
                 _obstacleAvoidance.forwardFeelerDepth = 3;
                 _obstacleAvoidance.sideFeelerDepth = 1;
                 _obstacleAvoidance.scale = 2;
@@ -103,6 +107,7 @@ public class BugAI : MonoBehaviour
                 _seek.targetGameObject = _lights[_randomLight];
                 break;
             case WhatAmIDoing.Wandering:
+                _obstacleAvoidance.enabled = true;
                 _obstacleAvoidance.forwardFeelerDepth = 3;
                 _obstacleAvoidance.sideFeelerDepth = 1;
                 _obstacleAvoidance.scale = 2;
@@ -111,10 +116,25 @@ public class BugAI : MonoBehaviour
                 break;
             case WhatAmIDoing.Landed:
                 _noiseWander.enabled = false;
+                _obstacleAvoidance.enabled = false;
                 _seek.enabled = true;
                 _seek.targetGameObject = _flats[_randomFlat];
+                Vector3 transformPosition = _seek.targetGameObject.transform.position;
+                _seek.target = new Vector3(transformPosition.x,
+                    (transformPosition.y + _seek.targetGameObject.transform.localScale.y / 2 + gameObject.transform.localScale.y/2), 
+                    transformPosition.z);
+                switch (_landed)
+                {
+                    case true:
+                        _boid.enabled = false;
+                        break;
+                    case false:
+                        _boid.enabled = true;
+                        break;
+                }
                 break;
             case WhatAmIDoing.CrashingIntoWindow:
+                _obstacleAvoidance.enabled = true;
                 _obstacleAvoidance.forwardFeelerDepth = 1;
                 _obstacleAvoidance.sideFeelerDepth = 1;
                 _obstacleAvoidance.scale = 10;
