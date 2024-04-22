@@ -78,13 +78,11 @@ public class WingsAnim : MonoBehaviour
 
         upAndDown = Mathf.Clamp(upAndDown,0, .6f);
         upAndDown2 = Mathf.Clamp(upAndDown2,0, .6f);
-
-        Debug.Log(upAndDownRotate);
         
         _wing1.transform.localPosition = new Vector3(0.75f, upAndDown, 0);
         _wing2.transform.localPosition = new Vector3(-0.75f, upAndDown, 0);
-        _wing3.transform.localPosition = new Vector3(0.75f, upAndDown2, 0);
-        _wing4.transform.localPosition = new Vector3(-0.75f, upAndDown2, 0);
+        _wing3.transform.localPosition = new Vector3(0.60f, upAndDown2, 0.5f);
+        _wing4.transform.localPosition = new Vector3(-0.60f, upAndDown2, 0.5f);
 
     }
 }

@@ -19,6 +19,8 @@ public class BugAI : MonoBehaviour
     private Light _bugLight;
     private float _lerpTime = 5, _currentLerpTime;
     private bool _landed;
+    private WingsAnim _wingsAnim;
+    private Vector3 _trueFlatPos;
     public enum WhatAmIDoing
     {
         Wandering,
@@ -56,7 +58,9 @@ public class BugAI : MonoBehaviour
         _behaviourNumber = Random.Range(0, 4);
         _bugLight = transform.GetChild(1).GetComponent<Light>();
         _landed = false;
-        StartCoroutine(Die());
+        _wingsAnim = GetComponentInChildren<WingsAnim>();
+        _wingsAnim.enabled = true;
+        StartCoroutine(DieTimer());
     }
     
     void Update()
@@ -74,6 +78,17 @@ public class BugAI : MonoBehaviour
             _randomLight = Random.Range(0, _lights.Count);
             _randomGlass = Random.Range(0, _glass.Count);
             _randomFlat = Random.Range(0, _flats.Count);
+            GameObject flatSurface = _flats[_randomFlat];
+            Vector3 flatMin = flatSurface.GetComponent<MeshFilter>().mesh.bounds.min;
+            Vector3 flatMax = flatSurface.GetComponent<MeshFilter>().mesh.bounds.min;
+            _trueFlatPos = flatSurface.transform.position -
+                           new Vector3(
+                               Random.Range(flatMin.x * flatSurface.transform.localScale.x,
+                                   flatMax.x * flatSurface.transform.localScale.x),
+                               flatSurface.transform.localScale.y / 2,
+                               (Random.Range(flatMin.z * flatSurface.transform.localScale.z,
+                                   flatMax.z * flatSurface.transform.localScale.z)));
+            Debug.Log(_trueFlatPos);
             changeStateTimer = Random.Range(15, 76);
             _behaviourNumber = Random.Range(0, 4);
             _landed = false;
@@ -98,6 +113,8 @@ public class BugAI : MonoBehaviour
         switch (doingWhat)
         {
             case WhatAmIDoing.SeekLight:
+                _boid.enabled = true;
+                _wingsAnim.enabled = true;
                 _obstacleAvoidance.enabled = true;
                 _obstacleAvoidance.forwardFeelerDepth = 3;
                 _obstacleAvoidance.sideFeelerDepth = 1;
@@ -105,8 +122,19 @@ public class BugAI : MonoBehaviour
                 _noiseWander.enabled = false;
                 _seek.enabled = true;
                 _seek.targetGameObject = _lights[_randomLight];
+                bool gonnaDie = false;
+                if (Vector3.Distance(transform.position, _seek.targetGameObject.transform.position) <= 0.01f)
+                {
+                    if (gonnaDie == false)
+                    {
+                        ActuallyDieForReal();
+                        gonnaDie = true;
+                    }
+                }
                 break;
             case WhatAmIDoing.Wandering:
+                _wingsAnim.enabled = true;
+                _boid.enabled = true;
                 _obstacleAvoidance.enabled = true;
                 _obstacleAvoidance.forwardFeelerDepth = 3;
                 _obstacleAvoidance.sideFeelerDepth = 1;
@@ -116,24 +144,57 @@ public class BugAI : MonoBehaviour
                 break;
             case WhatAmIDoing.Landed:
                 _noiseWander.enabled = false;
-                _obstacleAvoidance.enabled = false;
                 _seek.enabled = true;
                 _seek.targetGameObject = _flats[_randomFlat];
                 Vector3 transformPosition = _seek.targetGameObject.transform.position;
+               /* _seek.target = new Vector3(
+                    Random.Range(transformPosition.x - _seek.transform.localScale.x / 2,
+                        transformPosition.x + _seek.transform.localScale.x),
+                    (transformPosition.y + _seek.targetGameObject.transform.localScale.y / 2 +
+                     gameObject.transform.localScale.y / 2),
+                    Random.Range(transformPosition.z - _seek.transform.localScale.z / 2,
+                        transformPosition.z + _seek.transform.localScale.z / 2));*/
                 _seek.target = new Vector3(transformPosition.x,
-                    (transformPosition.y + _seek.targetGameObject.transform.localScale.y / 2 + gameObject.transform.localScale.y/2), 
-                    transformPosition.z);
+                    transformPosition.y + _seek.targetGameObject.transform.position.y + transform.localScale.y / 2, transformPosition.z);
+                
+                if (Vector3.Distance(transform.position,_seek.target) <= 2.5)
+                {
+                    _obstacleAvoidance.enabled = false;
+                }
+                else
+                {
+                    _obstacleAvoidance.enabled = true;
+                }
+                
+                if (Vector3.Distance(transform.position,_seek.target) <= .1 && transform.position.y >= _seek.target.y)
+                {
+                    _landed = true;
+                    var transformRotation = transform.rotation;
+                    transformRotation.x = 0;
+                    transformRotation.z = 0;
+                    transform.rotation = transformRotation;
+                }
+                else
+                {
+                    _landed = false;
+                }
+                
                 switch (_landed)
                 {
                     case true:
                         _boid.enabled = false;
+                        _wingsAnim.enabled = false;
                         break;
                     case false:
                         _boid.enabled = true;
+                        _wingsAnim.enabled = true;
                         break;
                 }
+                
                 break;
             case WhatAmIDoing.CrashingIntoWindow:
+                _wingsAnim.enabled = true;
+                _boid.enabled = true;
                 _obstacleAvoidance.enabled = true;
                 _obstacleAvoidance.forwardFeelerDepth = 1;
                 _obstacleAvoidance.sideFeelerDepth = 1;
@@ -145,19 +206,30 @@ public class BugAI : MonoBehaviour
         }
     }
 
-    IEnumerator Die()
+    IEnumerator DieTimer()
     {
        yield return new WaitForSecondsRealtime(Random.Range(30, 121));
-       _boid.enabled = false;
-       _seek.enabled = false;
-       _obstacleAvoidance.enabled = false;
-       _noiseWander.enabled = false;
-       gameObject.AddComponent<Rigidbody>();
-       _currentLerpTime = 0;
-       float lerpTimeReal = _currentLerpTime / _lerpTime;
-       _bugLight.intensity = Mathf.Lerp(15, 0,lerpTimeReal);
-       yield return new WaitForSecondsRealtime(Random.Range(1, 4));
-       Debug.Log("Bug down!!!!!1");
-       Destroy(gameObject);
+       ActuallyDieForReal();
+    }
+
+    private void ActuallyDieForReal()
+    {
+        _boid.enabled = false;
+        _seek.enabled = false;
+        _obstacleAvoidance.enabled = false;
+        _noiseWander.enabled = false;
+        _wingsAnim.enabled = false;
+        gameObject.AddComponent<Rigidbody>();
+        _currentLerpTime = 0;
+        float lerpTimeReal = _currentLerpTime / _lerpTime;
+        _bugLight.intensity = Mathf.Lerp(15, 0,lerpTimeReal);
+        StartCoroutine(DiePart2());
+    }
+
+    private IEnumerator DiePart2()
+    {
+        yield return new WaitForSecondsRealtime(Random.Range(1, 4));
+        Debug.Log("Bug down!!!!!1");
+        Destroy(gameObject);
     }
 }

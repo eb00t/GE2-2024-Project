@@ -2,7 +2,7 @@
 using UnityEngine;
 public class Boid : MonoBehaviour
 {
-    private List<SteeringBehaviour> behaviours = new List<SteeringBehaviour>();
+    private List<SteeringBehaviour> _behaviours = new List<SteeringBehaviour>();
 
        public Vector3 force = Vector3.zero;
        public Vector3 acceleration = Vector3.zero;
@@ -32,7 +32,7 @@ public class Boid : MonoBehaviour
 
            foreach (SteeringBehaviour b in behaviours)
            {
-               this.behaviours.Add(b);
+               this._behaviours.Add(b);
            }
        }
 
@@ -74,7 +74,7 @@ public class Boid : MonoBehaviour
            // 3. Truncated
            // 4. Running sum
 
-           foreach (SteeringBehaviour b in behaviours)
+           foreach (SteeringBehaviour b in _behaviours)
            {
                if (b.isActiveAndEnabled)
                {

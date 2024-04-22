@@ -39,14 +39,17 @@ public class SpawnBugs : MonoBehaviour
 
     IEnumerator CountBugs()
     {
-        int tempCurrentBugs = 0;
-        foreach (GameObject go in GameObject.FindGameObjectsWithTag("Bug"))
+        while (true)
         {
-            tempCurrentBugs++;
+            int tempCurrentBugs = 0;
+            foreach (GameObject go in GameObject.FindGameObjectsWithTag("Bug"))
+            {
+                tempCurrentBugs++;
+            }
+
+            currentBugs = tempCurrentBugs;
+            Debug.Log("There are currently " + currentBugs + " bugs.");
+            yield return new WaitForSecondsRealtime(10f);
         }
-        currentBugs = tempCurrentBugs;
-        Debug.Log("There are currently " + currentBugs + " bugs.");
-        yield return new WaitForSecondsRealtime(10f);
-        StartCoroutine(CountBugs());
     }
 }
