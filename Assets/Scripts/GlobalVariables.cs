@@ -8,6 +8,7 @@ public class GlobalVariables : MonoBehaviour
     public int bugCount = 0;
     public int totalBugsAllowed;
     public List<GameObject> allBugs;
+    public bool canBugsDieFromLights;
     void Start()
     {
         StartCoroutine(CountBugs());
@@ -36,7 +37,7 @@ public class GlobalVariables : MonoBehaviour
             yield return new WaitForSecondsRealtime(10f);
         }
     }
-
+    
    public void KillAllBugs()
     {
         Debug.Log("Killed all bugs.");

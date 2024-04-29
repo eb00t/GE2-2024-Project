@@ -21,6 +21,7 @@ public class BugAI : MonoBehaviour
     private WingsAnim _wingsAnim;
     private Vector3 _trueFlatPos;
     public bool canDieFromLights;
+    private int _willSuicide;
     public enum WhatAmIDoing
     {
         Wandering,
@@ -69,9 +70,22 @@ public class BugAI : MonoBehaviour
         changeStateTimer -= Time.deltaTime;
         if (changeStateTimer <= 0)
         {
-            _randomLight = Random.Range(0, _lights.Count);
-            _randomGlass = Random.Range(0, _glass.Count);
-            _randomFlat = Random.Range(0, _flats.Count);
+            _behaviourNumber = Random.Range(0, 4);
+            switch (_behaviourNumber) //only randomises what it needs to
+            {
+                case 1: //Landing
+                    _randomFlat = Random.Range(0, _flats.Count);
+                    break;
+                case 2: //Seek Light
+                    _randomLight = Random.Range(0, _lights.Count);
+                    _willSuicide = Random.Range(0, 2);
+                    break;
+                case 3: //Crash into Window
+                    _randomGlass = Random.Range(0, _glass.Count);
+                    break;
+            }
+            
+          
             GameObject flatSurface = _flats[_randomFlat];
             Vector3 flatMin = flatSurface.GetComponent<MeshFilter>().mesh.bounds.min;
             Vector3 flatMax = flatSurface.GetComponent<MeshFilter>().mesh.bounds.min;
@@ -84,7 +98,6 @@ public class BugAI : MonoBehaviour
                                    flatMax.z * flatSurface.transform.localScale.z)));
             Debug.Log(_trueFlatPos);
             changeStateTimer = Random.Range(15, 76);
-            _behaviourNumber = Random.Range(0, 4);
             _landed = false;
         }
 
@@ -103,20 +116,29 @@ public class BugAI : MonoBehaviour
                 doingWhat = WhatAmIDoing.CrashingIntoWindow;
                 break;
         }
-        
+
+        Vector3 position = transform.position;
         switch (doingWhat)
         {
             case WhatAmIDoing.SeekLight:
                 _boid.enabled = true;
                 _wingsAnim.enabled = true;
-                _obstacleAvoidance.enabled = true;
-                _obstacleAvoidance.forwardFeelerDepth = 3;
-                _obstacleAvoidance.sideFeelerDepth = 1;
-                _obstacleAvoidance.scale = 2;
+                switch (_willSuicide)
+                {
+                   case 1: //false
+                       _obstacleAvoidance.enabled = false;
+                       break;
+                   case 0: //true
+                       _obstacleAvoidance.enabled = true;
+                       _obstacleAvoidance.forwardFeelerDepth = 3;
+                       _obstacleAvoidance.sideFeelerDepth = 1;
+                       _obstacleAvoidance.scale = 2;
+                       break;
+                }
                 _noiseWander.enabled = false;
                 _seek.enabled = true;
                 _seek.targetGameObject = _lights[_randomLight];
-                if (Vector3.Distance(transform.position, _seek.targetGameObject.transform.position) <= 0.01f && canDieFromLights)
+                if (Vector3.Distance(position, _seek.targetGameObject.transform.position) <= 0.01f && canDieFromLights)
                 {
                     ActuallyDieForReal();
                 }
@@ -146,7 +168,7 @@ public class BugAI : MonoBehaviour
                 _seek.target = new Vector3(transformPosition.x,
                     transformPosition.y + _seek.targetGameObject.transform.position.y + transform.localScale.y / 2, transformPosition.z);
                 
-                if (Vector3.Distance(transform.position,_seek.target) <= 2.5)
+                if (Vector3.Distance(position,_seek.target) <= 3)
                 {
                     _obstacleAvoidance.enabled = false;
                 }
@@ -155,13 +177,14 @@ public class BugAI : MonoBehaviour
                     _obstacleAvoidance.enabled = true;
                 }
                 
-                if (Vector3.Distance(transform.position,_seek.target) <= .1 && transform.position.y >= _seek.target.y)
+                if (Vector3.Distance(position,_seek.target) <= .1 && position.y >= _seek.target.y)
                 {
                     _landed = true;
                     var transformRotation = transform.rotation;
                     transformRotation.x = 0;
                     transformRotation.z = 0;
                     transform.rotation = transformRotation;
+                    position.y = transformPosition.y / 2;
                 }
                 else
                 {
