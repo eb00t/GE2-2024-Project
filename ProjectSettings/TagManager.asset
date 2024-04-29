@@ -9,6 +9,8 @@ TagManager:
   - FlatSurface
   - Bug
   - BugSpawner
+  - PreyFish
+  - PredatorFish
   layers:
   - Default
   - TransparentFX

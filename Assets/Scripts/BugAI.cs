@@ -63,7 +63,7 @@ public class BugAI : MonoBehaviour
         StartCoroutine(DieTimer());
     }
     
-    void Update()
+    void FixedUpdate()
     {
         _currentLerpTime += Time.deltaTime;
         if (_currentLerpTime > _lerpTime)
@@ -71,7 +71,7 @@ public class BugAI : MonoBehaviour
             _currentLerpTime = _lerpTime;
         }
         float lerpTimeReal = _currentLerpTime / _lerpTime;
-        _bugLight.intensity = Mathf.Lerp(0, 15,lerpTimeReal);
+        _bugLight.intensity = Mathf.Lerp(0, 15,0.5f * Time.time);
         changeStateTimer -= Time.deltaTime;
         if (changeStateTimer <= 0)
         {

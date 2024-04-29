@@ -1,57 +1,61 @@
-using UnityEngine;
+﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
-public class SpineAnimator : MonoBehaviour
-{
-    public string[] bonePaths = new string[0];
-    public float damping = 7f;
-    public float angularDamping = 20f;
+public class SpineAnimator : MonoBehaviour {
+    public GameObject[] bones;
 
-    private Transform[] bones;
-    private Vector3[] offsets;
+    public float bondDamping = 25;
+    public float angularBondDamping = 25;
 
-    void Start()
-    {
-        CalculateOffsets();
-    }
-
-    void CalculateOffsets()
-    {
-        bones = new Transform[bonePaths.Length];
-        offsets = new Vector3[bonePaths.Length - 1];
-
-        for (int i = 0; i < bonePaths.Length; i++)
+    private List<Vector3> offsets = new List<Vector3>();
+    
+    // Use this for initialization
+    void Start () {
+        if (bones != null)
         {
-            Transform bone = transform.Find(bonePaths[i]);
-            bones[i] = bone;
-
-            if (i > 0)
+            for (int i = 0; i < bones.Length; i++)
             {
-                Vector3 offset = bones[i].position - bones[i - 1].position;
-                offset = Quaternion.Inverse(bones[i - 1].rotation) * offset;
-                offsets[i - 1] = offset;
+                GameObject prevBone = (i == 0)
+                    ? this.gameObject
+                    : bones[i - 1];
+                GameObject bone = bones[i];
+
+                Vector3 offset = bone.transform.position
+                                 - prevBone.transform.position;
+                offset = Quaternion.Inverse(prevBone.transform.rotation) 
+                         * offset;
+
+                offsets.Add(offset);
             }
         }
     }
-
-    void FixedUpdate()
-    {
-        for (int i = 0; i < offsets.Length; i++)
+	
+    // Update is called once per frame
+    void FixedUpdate () {
+        for (int i = 0; i < bones.Length; i++)
         {
-            Transform prev = bones[i];
-            Transform next = bones[i + 1];
+            GameObject prevBone = (i == 0)
+                ? this.gameObject
+                : bones[i - 1];
 
-            Vector3 wantedPos = prev.TransformPoint(offsets[i]);
+            GameObject bone = bones[i];
 
-            Vector3 lerped = Vector3.Lerp(next.position, wantedPos, Time.fixedDeltaTime * damping);
-            Vector3 limitLength = (lerped - prev.position).normalized * offsets[i].magnitude;
-            Vector3 pos = prev.position + limitLength;
-            next.position = pos;
+            //Vector3 wantedPosition = prevBone.transform.TransformPoint(offsets[i]);
 
-            Quaternion prevRot = prev.rotation;
+            Vector3 wantedPosition = (prevBone.transform.rotation * offsets[i]) + prevBone.transform.position;
 
-            Quaternion targetRot = Quaternion.LookRotation(next.position - prev.position, prev.up);
-            next.rotation = Quaternion.Slerp(next.rotation, targetRot, angularDamping * Time.fixedDeltaTime);
+            bone.transform.position = Vector3.Lerp(bone.transform.position
+                , wantedPosition
+                , Time.deltaTime * bondDamping);
+
+            Quaternion wantedRotation = Quaternion.LookRotation(prevBone.transform.position
+                                                                - bone.transform.position, prevBone.transform.up);
+
+            bone.transform.rotation = Quaternion.Slerp(bone.transform.rotation
+                , wantedRotation
+                , Time.deltaTime * angularBondDamping);
+
         }
     }
 }
