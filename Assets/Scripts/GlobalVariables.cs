@@ -7,9 +7,11 @@ public class GlobalVariables : MonoBehaviour
 {
     public int bugCount = 0;
     public int totalBugsAllowed;
+    public List<GameObject> allBugs;
     void Start()
     {
         StartCoroutine(CountBugs());
+        allBugs = new List<GameObject>();
     }
 
     
@@ -23,14 +25,26 @@ public class GlobalVariables : MonoBehaviour
         while (true)
         {
             int tempCurrentBugs = 0;
+            allBugs.Clear();
             foreach (GameObject go in GameObject.FindGameObjectsWithTag("Bug"))
             {
                 tempCurrentBugs++;
+                allBugs.Add(go);
             }
-
             bugCount = tempCurrentBugs;
             Debug.Log("There are currently " + bugCount + " bugs.");
             yield return new WaitForSecondsRealtime(10f);
+        }
+    }
+
+   public void KillAllBugs()
+    {
+        Debug.Log("Killed all bugs.");
+        StopCoroutine(CountBugs());
+        StartCoroutine(CountBugs());
+        foreach (GameObject go in allBugs)
+        {
+            go.GetComponent<BugAI>().ActuallyDieForReal();
         }
     }
 }

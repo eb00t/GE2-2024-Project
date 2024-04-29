@@ -17,10 +17,10 @@ public class BugAI : MonoBehaviour
     private List<GameObject> _flats;
     private int _randomLight, _randomGlass, _randomFlat;
     private Light _bugLight;
-    private float _lerpTime = 5, _currentLerpTime;
     private bool _landed;
     private WingsAnim _wingsAnim;
     private Vector3 _trueFlatPos;
+    public bool canDieFromLights;
     public enum WhatAmIDoing
     {
         Wandering,
@@ -65,13 +65,7 @@ public class BugAI : MonoBehaviour
     
     void FixedUpdate()
     {
-        _currentLerpTime += Time.deltaTime;
-        if (_currentLerpTime > _lerpTime)
-        {
-            _currentLerpTime = _lerpTime;
-        }
-        float lerpTimeReal = _currentLerpTime / _lerpTime;
-        _bugLight.intensity = Mathf.Lerp(0, 15,0.5f * Time.time);
+        _bugLight.intensity = Mathf.Lerp(0, 15,0.05f * Time.time);
         changeStateTimer -= Time.deltaTime;
         if (changeStateTimer <= 0)
         {
@@ -122,14 +116,9 @@ public class BugAI : MonoBehaviour
                 _noiseWander.enabled = false;
                 _seek.enabled = true;
                 _seek.targetGameObject = _lights[_randomLight];
-                bool gonnaDie = false;
-                if (Vector3.Distance(transform.position, _seek.targetGameObject.transform.position) <= 0.01f)
+                if (Vector3.Distance(transform.position, _seek.targetGameObject.transform.position) <= 0.01f && canDieFromLights)
                 {
-                    if (gonnaDie == false)
-                    {
-                        ActuallyDieForReal();
-                        gonnaDie = true;
-                    }
+                    ActuallyDieForReal();
                 }
                 break;
             case WhatAmIDoing.Wandering:
@@ -212,7 +201,7 @@ public class BugAI : MonoBehaviour
        ActuallyDieForReal();
     }
 
-    private void ActuallyDieForReal()
+    public void ActuallyDieForReal()
     {
         _boid.enabled = false;
         _seek.enabled = false;
@@ -220,9 +209,7 @@ public class BugAI : MonoBehaviour
         _noiseWander.enabled = false;
         _wingsAnim.enabled = false;
         gameObject.AddComponent<Rigidbody>();
-        _currentLerpTime = 0;
-        float lerpTimeReal = _currentLerpTime / _lerpTime;
-        _bugLight.intensity = Mathf.Lerp(15, 0,lerpTimeReal);
+        _bugLight.intensity = Mathf.Lerp(15, 0,0.1f * Time.time);
         StartCoroutine(DiePart2());
     }
 
