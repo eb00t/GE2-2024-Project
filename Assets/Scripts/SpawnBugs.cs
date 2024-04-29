@@ -14,7 +14,7 @@ public class SpawnBugs : MonoBehaviour
     void Start()
     {
         _globalVariables = GameObject.FindWithTag("GlobalVariables").GetComponent<GlobalVariables>();
-        _bugsToSpawn = _globalVariables.totalBugsAllowed;
+        //_bugsToSpawn = _globalVariables.totalBugsAllowed;
         _bug = Resources.Load<GameObject>("Prefabs/Bug");
         _bugSpawners = new List<GameObject>();
         foreach (GameObject go in GameObject.FindGameObjectsWithTag("BugSpawner"))
@@ -28,7 +28,7 @@ public class SpawnBugs : MonoBehaviour
     
    void Update()
     {
-        if (_globalVariables.bugCount < (_bugsToSpawn * _bugSpawners.Count) && _bugTimer <= 0)
+        if (_globalVariables.bugCount < (_globalVariables.totalBugsAllowed * _bugSpawners.Count) && _bugTimer <= 0)
         {
             _bugTimer = 1;
             Instantiate(_bug, gameObject.transform.position, Quaternion.identity);
