@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,9 +11,12 @@ public class GlobalVariables : MonoBehaviour
     public bool canBugsDieFromLights;
     public List<GameObject> allBugs;
 
-    [Header("Fish Info")] public int orangeFishCount;
+    [Header("Fish Info")] 
+    public int orangeFishCount;
     public int preyFishCount;
     public int totalOrangeFishAllowed;
+    public int totalSchoolFishAllowed;
+    public int totalPreyAllowed;
     public List<GameObject> allPreyFish;
 
     void Start()
@@ -22,6 +26,11 @@ public class GlobalVariables : MonoBehaviour
         allBugs = new List<GameObject>();
         allPreyFish = new List<GameObject>();
         canBugsDieFromLights = true;
+    }
+
+    void Update()
+    {
+        totalPreyAllowed = totalOrangeFishAllowed + totalSchoolFishAllowed;
     }
 
     IEnumerator CountBugs()
@@ -99,7 +108,7 @@ public class GlobalVariables : MonoBehaviour
         GetImmediatePreyFishNumber();
         foreach (GameObject go in allPreyFish)
         {
-            ;
+            go.GetComponent<FishAI>().Die();
         }
     }
 }

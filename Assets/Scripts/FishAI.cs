@@ -5,11 +5,16 @@ using UnityEngine;
 
 public class FishAI : MonoBehaviour
 {
-    private NoiseWander _noiseWander;
-    public List<GameObject> evilFish;
-    private Flee _flee;
     private Boid _boid;
+    private NoiseWander _noiseWander;
+    private Flee _flee;
+    private ObstacleAvoidance _obstacleAvoidance;
     private SpineAnimator _spineAnimator;
+    private Harmonic _harmonic;
+    public List<GameObject> allSegments;
+    private GameObject _fishRoot;
+    
+    public List<GameObject> evilFish;
     public enum AIStates
     {
         Wandering,
@@ -23,11 +28,20 @@ public class FishAI : MonoBehaviour
         _boid = GetComponent<Boid>();
         _noiseWander = GetComponent<NoiseWander>();
         _flee = GetComponent<Flee>();
+        _obstacleAvoidance = GetComponent<ObstacleAvoidance>();
         _spineAnimator = GetComponent<SpineAnimator>();
+        _harmonic = GetComponent<Harmonic>();
+        
         evilFish = new List<GameObject>();
         _flee.enabled = false;
         states = AIStates.Wandering;
         StartCoroutine(CheckForBadGuys());
+        allSegments = new List<GameObject>();
+        _fishRoot = transform.root.gameObject;
+        foreach (Transform tf in _fishRoot.GetComponentsInChildren<Transform>())
+        {
+            allSegments.Add(tf.gameObject);
+        }
     }
 
     void Update()
@@ -79,5 +93,23 @@ public class FishAI : MonoBehaviour
             }
             yield return new WaitForSecondsRealtime(1f);
         }
+    }
+    
+    public IEnumerator Die()
+    {
+        _boid.enabled = false;
+        _flee.enabled = false;
+        _obstacleAvoidance.enabled = false;
+        _harmonic.enabled = false;
+        _noiseWander.enabled = false;
+        _spineAnimator.enabled = false;
+        gameObject.SetActive(false);
+        foreach (GameObject go in allSegments)
+        {
+            go.AddComponent<Rigidbody>().useGravity = false;
+        }
+        yield return new WaitForSecondsRealtime(Random.Range(1, 4));
+        Debug.Log("A fish has been eaten!");
+        Destroy(gameObject.transform.root.gameObject);
     }
 }

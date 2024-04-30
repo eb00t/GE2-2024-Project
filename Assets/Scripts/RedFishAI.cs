@@ -27,7 +27,7 @@ public class RedFishAI : MonoBehaviour
     void Start()
     {
         _boid = GetComponent<Boid>();
-        _hunger = Random.Range(60, 101);
+        _hunger = Random.Range(70, 110);
         _globalVariables = GameObject.FindWithTag("GlobalVariables").GetComponent<GlobalVariables>();
         _noiseWander = GetComponent<NoiseWander>();
         _harmonic = GetComponent<Harmonic>();
@@ -79,11 +79,11 @@ public class RedFishAI : MonoBehaviour
                     StartCoroutine(Die());
                     canEat = false;
                     break;
-                case < 50 and >= 0:
+                case < 60 and >= 0:
                     states = AIStates.Chasing;
                     _rngNumber = Random.Range(0, _globalVariables.allPreyFish.Count);
                     break;
-                    case >= 50:
+                    case >= 60:
                     states = AIStates.Wandering;
                     break;
             }

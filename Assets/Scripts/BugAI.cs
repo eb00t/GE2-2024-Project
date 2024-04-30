@@ -245,7 +245,7 @@ public class BugAI : MonoBehaviour
         _noiseWander.enabled = false;
         _wingsAnim.enabled = false;
         gameObject.AddComponent<Rigidbody>();
-        _bugLight.intensity = Mathf.Lerp(15, 0,0.1f * Time.time);
+        _bugLight.intensity = Mathf.Lerp(15, 0,0.05f * Time.time);
         StartCoroutine(DiePart2());
     }
 
