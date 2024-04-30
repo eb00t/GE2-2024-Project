@@ -12,6 +12,7 @@ TagManager:
   - PreyFish
   - PredatorFish
   - GlobalVariables
+  - PreyFishSpawner
   layers:
   - Default
   - TransparentFX

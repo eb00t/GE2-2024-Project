@@ -47,7 +47,7 @@ public class GlobalVariables : MonoBehaviour
 
             bugCount = tempCurrentBugs;
             Debug.Log("There are currently " + bugCount + " bugs.");
-            yield return new WaitForSecondsRealtime(10f);
+            yield return new WaitForSecondsRealtime(1f);
         }
     }
 
@@ -92,7 +92,7 @@ public class GlobalVariables : MonoBehaviour
 
             preyFishCount = tempCurrentFish;
             Debug.Log("There are currently " + preyFishCount + " edible fish.");
-            yield return new WaitForSecondsRealtime(10f);
+            yield return new WaitForSecondsRealtime(1f);
         }
     }
 

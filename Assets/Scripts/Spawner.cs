@@ -23,7 +23,6 @@ public class Spawner : MonoBehaviour
         //_bugsToSpawn = _globalVariables.totalBugsAllowed;
         _bug = Resources.Load<GameObject>("Prefabs/Bug");
         _orangeFish = Resources.Load<GameObject>("Prefabs/OrangeFish");
-        _bugSpawners = new List<GameObject>();
     }
 
 
@@ -33,7 +32,7 @@ public class Spawner : MonoBehaviour
         {
             //FOR BUGS
             case Spawns.Bugs:
-            if (_globalVariables.bugCount < (_globalVariables.totalBugsAllowed * _bugSpawners.Count) && _bugTimer <= 0)
+            if (_globalVariables.bugCount < (_globalVariables.totalBugsAllowed) && _bugTimer <= 0)
             {
                 _bugTimer = 1;
                 Instantiate(_bug, gameObject.transform.position, Quaternion.identity);
