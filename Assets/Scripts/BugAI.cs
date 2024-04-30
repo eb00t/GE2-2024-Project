@@ -20,8 +20,9 @@ public class BugAI : MonoBehaviour
     private bool _landed;
     private WingsAnim _wingsAnim;
     private Vector3 _trueFlatPos;
-    public bool canDieFromLights;
+    public bool canDieFromLights = true;
     private int _willSuicide;
+    private AudioSource _audioSource;
     public enum WhatAmIDoing
     {
         Wandering,
@@ -62,6 +63,20 @@ public class BugAI : MonoBehaviour
         _wingsAnim = GetComponentInChildren<WingsAnim>();
         _wingsAnim.enabled = true;
         StartCoroutine(DieTimer());
+        _audioSource = GetComponent<AudioSource>();
+        switch (_behaviourNumber) //only randomises what it needs to
+        {
+            case 1: //Landing
+                _randomFlat = Random.Range(0, _flats.Count);
+                break;
+            case 2: //Seek Light
+                _randomLight = Random.Range(0, _lights.Count);
+                _willSuicide = Random.Range(0, 2);
+                break;
+            case 3: //Crash into Window
+                _randomGlass = Random.Range(0, _glass.Count);
+                break;
+        }
     }
     
     void FixedUpdate()
@@ -138,8 +153,9 @@ public class BugAI : MonoBehaviour
                 _noiseWander.enabled = false;
                 _seek.enabled = true;
                 _seek.targetGameObject = _lights[_randomLight];
-                if (Vector3.Distance(position, _seek.targetGameObject.transform.position) <= 0.01f && canDieFromLights)
+                if (Vector3.Distance(position, _seek.targetGameObject.transform.position) <= 0.1f && canDieFromLights)
                 {
+                    _audioSource.Play();
                     ActuallyDieForReal();
                 }
                 break;

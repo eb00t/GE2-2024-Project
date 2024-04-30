@@ -13,6 +13,7 @@ public class GlobalVariables : MonoBehaviour
     {
         StartCoroutine(CountBugs());
         allBugs = new List<GameObject>();
+        canBugsDieFromLights = true;
     }
 
     
@@ -35,6 +36,16 @@ public class GlobalVariables : MonoBehaviour
             bugCount = tempCurrentBugs;
             Debug.Log("There are currently " + bugCount + " bugs.");
             yield return new WaitForSecondsRealtime(10f);
+        }
+    }
+
+    public void ToggleLightDeath()
+    {
+        canBugsDieFromLights = !canBugsDieFromLights;
+        Debug.Log(canBugsDieFromLights);
+        foreach (GameObject go in allBugs)
+        {
+            go.GetComponent<BugAI>().canDieFromLights = canBugsDieFromLights;
         }
     }
     
