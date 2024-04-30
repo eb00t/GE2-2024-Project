@@ -52,6 +52,17 @@ public class Spawner : MonoBehaviour
                 }
                 _fishTimer = Mathf.Clamp(_fishTimer, 0, 2);
                 _fishTimer -= Time.deltaTime;
+                break; 
+            //FOR RED FISH
+            case Spawns.RedFish: 
+                if (_globalVariables.orangeFishCount < (_globalVariables.totalOrangeFishAllowed) && _fishTimer <= 0)
+                {
+                    _fishTimer = 2;
+                    Instantiate(_orangeFish, gameObject.transform.position, Quaternion.identity);
+                    _globalVariables.orangeFishCount++;
+                }
+                _fishTimer = Mathf.Clamp(_fishTimer, 0, 2);
+                _fishTimer -= Time.deltaTime;
                 break;
         }
     }

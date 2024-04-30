@@ -34559,6 +34559,10 @@ MonoBehaviour:
   totalSchoolFishAllowed: 0
   totalPreyAllowed: 0
   allPreyFish: []
+  predatorFishCount: 0
+  totalPredatorFishAllowed: 0
+  allPredatorFish: []
+  counterUpdateTime: 0.5
 --- !u!4 &1426286929
 Transform:
   m_ObjectHideFlags: 0
@@ -37192,6 +37196,79 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1587138410}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &1588662768
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1773089056595789543, guid: d0b39e00bb609544cad5daa518def87a,
+        type: 3}
+      propertyPath: toSpawn
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7777327645768261241, guid: d0b39e00bb609544cad5daa518def87a,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7777327645768261241, guid: d0b39e00bb609544cad5daa518def87a,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 7.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7777327645768261241, guid: d0b39e00bb609544cad5daa518def87a,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -33.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7777327645768261241, guid: d0b39e00bb609544cad5daa518def87a,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7777327645768261241, guid: d0b39e00bb609544cad5daa518def87a,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7777327645768261241, guid: d0b39e00bb609544cad5daa518def87a,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7777327645768261241, guid: d0b39e00bb609544cad5daa518def87a,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7777327645768261241, guid: d0b39e00bb609544cad5daa518def87a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7777327645768261241, guid: d0b39e00bb609544cad5daa518def87a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7777327645768261241, guid: d0b39e00bb609544cad5daa518def87a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7863852517467255079, guid: d0b39e00bb609544cad5daa518def87a,
+        type: 3}
+      propertyPath: m_Name
+      value: Spawner (1)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d0b39e00bb609544cad5daa518def87a, type: 3}
 --- !u!1 &1588966108
 GameObject:
   m_ObjectHideFlags: 0
@@ -45361,7 +45438,7 @@ GameObject:
   - component: {fileID: 1820118868}
   - component: {fileID: 1820118867}
   m_Layer: 0
-  m_Name: FishCountSlider (1)
+  m_Name: RedFishCountSlider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45388,7 +45465,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -275, y: 75}
+  m_AnchoredPosition: {x: -275, y: -37.5}
   m_SizeDelta: {x: 160, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1820118867
@@ -45403,7 +45480,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2840f1e82b7f49e4b95a80a6e15e8e6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WhatToShow: 1
+  WhatToShow: 3
 --- !u!114 &1820118868
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49898,7 +49975,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2012769691
 RectTransform:
   m_ObjectHideFlags: 0
@@ -58312,6 +58389,7 @@ SceneRoots:
   - {fileID: 1449446302}
   - {fileID: 63563629}
   - {fileID: 1041494021}
+  - {fileID: 1588662768}
   - {fileID: 1118415819}
   - {fileID: 1361005592937274508}
   - {fileID: 343341359}

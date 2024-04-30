@@ -28,6 +28,12 @@ public class CountSlider : MonoBehaviour
             case ShowWhat.TotalOrangeFish:
                 _slider.value = _globalVariables.totalOrangeFishAllowed;
                 break;
+            case ShowWhat.TotalPredatorFish:
+                _slider.value = _globalVariables.totalBugsAllowed;
+                break;
+            case ShowWhat.TotalSchoolFish:
+                _slider.value = _globalVariables.totalOrangeFishAllowed;
+                break;
         }
        
     }

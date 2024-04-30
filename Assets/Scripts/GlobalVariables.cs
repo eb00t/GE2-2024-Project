@@ -11,26 +11,37 @@ public class GlobalVariables : MonoBehaviour
     public bool canBugsDieFromLights;
     public List<GameObject> allBugs;
 
-    [Header("Fish Info")] 
+    [Header("Prey Fish Info")] 
     public int orangeFishCount;
     public int preyFishCount;
     public int totalOrangeFishAllowed;
     public int totalSchoolFishAllowed;
     public int totalPreyAllowed;
     public List<GameObject> allPreyFish;
+    
+    [Header("Predator Fish Info")]
+    public int predatorFishCount;
+    public int totalPredatorFishAllowed;
+    public List<GameObject> allPredatorFish;
+
+    private int _totalFishAllowed;
+    public float counterUpdateTime = 1f;
 
     void Start()
     {
         StartCoroutine(CountBugs());
         StartCoroutine(CountPreyFish());
+        StartCoroutine(CountPredatorFish());
         allBugs = new List<GameObject>();
         allPreyFish = new List<GameObject>();
+        allPredatorFish = new List<GameObject>();
         canBugsDieFromLights = true;
     }
 
     void Update()
     {
         totalPreyAllowed = totalOrangeFishAllowed + totalSchoolFishAllowed;
+        _totalFishAllowed = totalPreyAllowed + totalPredatorFishAllowed;
     }
 
     IEnumerator CountBugs()
@@ -46,7 +57,43 @@ public class GlobalVariables : MonoBehaviour
             }
             bugCount = tempCurrentBugs;
             Debug.Log("There are currently " + bugCount + " bugs.");
-            yield return new WaitForSecondsRealtime(1f);
+            yield return new WaitForSecondsRealtime(counterUpdateTime);
+        }
+    }
+    
+    IEnumerator CountPreyFish()
+    {
+        while (true)
+        {
+            int tempCurrentFish = 0;
+            allPreyFish.Clear();
+            foreach (GameObject go in GameObject.FindGameObjectsWithTag("PreyFish"))
+            {
+                tempCurrentFish++;
+                allPreyFish.Add(go);
+            }
+
+            preyFishCount = tempCurrentFish;
+            Debug.Log("There are currently " + preyFishCount + " edible fish.");
+            yield return new WaitForSecondsRealtime(counterUpdateTime);
+        }
+    }
+    
+    IEnumerator CountPredatorFish()
+    {
+        while (true)
+        {
+            int tempCurrentFish = 0;
+            allPredatorFish.Clear();
+            foreach (GameObject go in GameObject.FindGameObjectsWithTag("PredatorFish"))
+            {
+                tempCurrentFish++;
+                allPredatorFish.Add(go);
+            }
+
+            predatorFishCount = tempCurrentFish;
+            Debug.Log("There are currently " + predatorFishCount + " inedible fish.");
+            yield return new WaitForSecondsRealtime(counterUpdateTime);
         }
     }
 
@@ -71,36 +118,6 @@ public class GlobalVariables : MonoBehaviour
         GetImmediateBugNumber();
     }
 
-    private void GetImmediateBugNumber()
-    {
-        StopCoroutine(CountBugs());
-        StartCoroutine(CountBugs());
-    }
-
-    IEnumerator CountPreyFish()
-    {
-        while (true)
-        {
-            int tempCurrentFish = 0;
-            allPreyFish.Clear();
-            foreach (GameObject go in GameObject.FindGameObjectsWithTag("PreyFish"))
-            {
-                tempCurrentFish++;
-                allPreyFish.Add(go);
-            }
-
-            preyFishCount = tempCurrentFish;
-            Debug.Log("There are currently " + preyFishCount + " edible fish.");
-            yield return new WaitForSecondsRealtime(1f);
-        }
-    }
-
-    private void GetImmediatePreyFishNumber()
-    {
-        StopCoroutine(CountPreyFish());
-        StartCoroutine(CountPreyFish());
-    }
-
     public void KillAllPreyFish()
     {
         Debug.Log("Killed all prey fish. The predators are going to be hungry.");
@@ -110,5 +127,25 @@ public class GlobalVariables : MonoBehaviour
         }
         GetImmediatePreyFishNumber();
     }
+    
+    private void GetImmediateBugNumber()
+    {
+        StopCoroutine(CountBugs());
+        StartCoroutine(CountBugs());
+    }
+
+    private void GetImmediatePreyFishNumber()
+    {
+        StopCoroutine(CountPreyFish());
+        StartCoroutine(CountPreyFish());
+    }
+    
+    private void GetImmediatePredatorFishNumber()
+    {
+        StopCoroutine(CountPredatorFish());
+        StartCoroutine(CountPredatorFish());
+    }
+
+    
 }
 
