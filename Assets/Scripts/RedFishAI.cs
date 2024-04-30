@@ -10,13 +10,14 @@ public class RedFishAI : MonoBehaviour
     private ObstacleAvoidance _obstacleAvoidance;
     private NoiseWander _noiseWander;
     private Harmonic _harmonic;
-    
+
     private GlobalVariables _globalVariables;
     private GameObject _fishRoot;
     private SpineAnimator _spineAnimator;
     public List<GameObject> _allSegments;
     public bool canEat = true;
     private int _rngNumber;
+
     public enum AIStates
     {
         Wandering,
@@ -24,6 +25,7 @@ public class RedFishAI : MonoBehaviour
     }
 
     public AIStates states;
+
     void Start()
     {
         _boid = GetComponent<Boid>();
@@ -39,10 +41,17 @@ public class RedFishAI : MonoBehaviour
         _fishRoot = transform.root.gameObject;
         foreach (Transform tf in _fishRoot.GetComponentsInChildren<Transform>())
         {
-            _allSegments.Add(tf.gameObject);
+            if (tf.gameObject.name.Contains("Red Fish"))
+            {
+                //Get outta here.
+            }
+            else
+            {
+                _allSegments.Add(tf.gameObject);
+            }
         }
     }
-    
+
     void Update()
     {
         switch (states)
@@ -59,6 +68,7 @@ public class RedFishAI : MonoBehaviour
                 {
                     _pursue.target = _globalVariables.allPreyFish[_rngNumber].GetComponent<Boid>();
                 }
+
                 _noiseWander.enabled = false;
                 _boid.maxSpeed = 10;
                 _harmonic.frequency = 0.4f;
@@ -66,7 +76,6 @@ public class RedFishAI : MonoBehaviour
                 {
                     _pursue.target.gameObject.GetComponent<FishAI>().Die();
                 }
-                
 
                 break;
         }
@@ -88,7 +97,7 @@ public class RedFishAI : MonoBehaviour
                     states = AIStates.Chasing;
                     _rngNumber = Random.Range(0, _globalVariables.allPreyFish.Count);
                     break;
-                    case >= 60:
+                case >= 60:
                     states = AIStates.Wandering;
                     break;
             }
@@ -105,10 +114,24 @@ public class RedFishAI : MonoBehaviour
         //_spineAnimator.enabled = false;
         foreach (GameObject go in _allSegments)
         {
+            Vector3 size = go.transform.localScale;
             go.AddComponent<Rigidbody>().useGravity = false;
+            StartCoroutine(ShrinkEm(size, go));
         }
         yield return new WaitForSecondsRealtime(Random.Range(1, 4));
         Debug.Log("Red fish has starved to death.");
-        Destroy(gameObject.transform.root.gameObject);
+
+        if (transform.localScale == new Vector3(0, 0, 0))
+        {
+            Destroy(gameObject.transform.root.gameObject);
+        }
+    }
+
+    IEnumerator ShrinkEm(Vector3 size, GameObject go)
+    {
+        while (true)
+        {
+            go.transform.localScale = Vector3.Lerp(size, new Vector3(0,0,0), 0.005f * Time.time);
+        }
     }
 }

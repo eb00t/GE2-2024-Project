@@ -5,8 +5,8 @@ using UnityEngine;
 public class Spawner : MonoBehaviour
 {
     private int _bugsToSpawn;
-    private GameObject _bug, _orangeFish;
-    private float _bugTimer, _fishTimer;
+    private GameObject _bug, _orangeFish, _redFish;
+    private float _timer;
     private List<GameObject> _bugSpawners, _fishSpawners;
     private GlobalVariables _globalVariables;
     public enum Spawns
@@ -23,6 +23,7 @@ public class Spawner : MonoBehaviour
         //_bugsToSpawn = _globalVariables.totalBugsAllowed;
         _bug = Resources.Load<GameObject>("Prefabs/Bug");
         _orangeFish = Resources.Load<GameObject>("Prefabs/OrangeFish");
+        _redFish = Resources.Load<GameObject>("Prefabs/Red Fish");
     }
 
 
@@ -32,37 +33,37 @@ public class Spawner : MonoBehaviour
         {
             //FOR BUGS
             case Spawns.Bugs:
-            if (_globalVariables.bugCount < (_globalVariables.totalBugsAllowed) && _bugTimer <= 0)
+            if (_globalVariables.bugCount < (_globalVariables.totalBugsAllowed) && _timer <= 0)
             {
-                _bugTimer = 1;
+                _timer = 1;
                 Instantiate(_bug, gameObject.transform.position, Quaternion.identity);
                 _globalVariables.bugCount++;
             }
-            _bugTimer = Mathf.Clamp(_bugTimer, 0, 1);
-            _bugTimer -= Time.deltaTime;
+            _timer = Mathf.Clamp(_timer, 0, 1);
+            _timer -= Time.deltaTime;
             break;
             
             //FOR ORANGE FISH
             case Spawns.OrangeFish: 
-                if (_globalVariables.orangeFishCount < (_globalVariables.totalOrangeFishAllowed) && _fishTimer <= 0)
+                if (_globalVariables.orangeFishCount < (_globalVariables.totalOrangeFishAllowed) && _timer <= 0)
                 {
-                    _fishTimer = 2;
+                    _timer = 2;
                     Instantiate(_orangeFish, gameObject.transform.position, Quaternion.identity);
                     _globalVariables.orangeFishCount++;
                 }
-                _fishTimer = Mathf.Clamp(_fishTimer, 0, 2);
-                _fishTimer -= Time.deltaTime;
+                _timer = Mathf.Clamp(_timer, 0, 2);
+                _timer -= Time.deltaTime;
                 break; 
             //FOR RED FISH
             case Spawns.RedFish: 
-                if (_globalVariables.orangeFishCount < (_globalVariables.totalOrangeFishAllowed) && _fishTimer <= 0)
+                if (_globalVariables.predatorFishCount < (_globalVariables.totalPredatorFishAllowed) && _timer <= 0)
                 {
-                    _fishTimer = 2;
-                    Instantiate(_orangeFish, gameObject.transform.position, Quaternion.identity);
+                    _timer = 4;
+                    Instantiate(_redFish, gameObject.transform.position, Quaternion.identity);
                     _globalVariables.orangeFishCount++;
                 }
-                _fishTimer = Mathf.Clamp(_fishTimer, 0, 2);
-                _fishTimer -= Time.deltaTime;
+                _timer = Mathf.Clamp(_timer, 0, 4);
+                _timer -= Time.deltaTime;
                 break;
         }
     }

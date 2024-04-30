@@ -29,7 +29,7 @@ public class CountSlider : MonoBehaviour
                 _slider.value = _globalVariables.totalOrangeFishAllowed;
                 break;
             case ShowWhat.TotalPredatorFish:
-                _slider.value = _globalVariables.totalBugsAllowed;
+                _slider.value = _globalVariables.totalPredatorFishAllowed;
                 break;
             case ShowWhat.TotalSchoolFish:
                 _slider.value = _globalVariables.totalOrangeFishAllowed;
@@ -47,7 +47,13 @@ public class CountSlider : MonoBehaviour
                 _globalVariables.totalBugsAllowed = (int)_slider.value;
                 break;
             case ShowWhat.TotalOrangeFish:
-               _globalVariables.totalOrangeFishAllowed = (int) _slider.value;
+                _globalVariables.totalOrangeFishAllowed = (int)_slider.value;
+                break;
+            case ShowWhat.TotalPredatorFish:
+                _globalVariables.totalPredatorFishAllowed = (int)_slider.value;
+                break;
+            case ShowWhat.TotalSchoolFish:
+                _globalVariables.totalOrangeFishAllowed = (int)_slider.value;
                 break;
         }
         

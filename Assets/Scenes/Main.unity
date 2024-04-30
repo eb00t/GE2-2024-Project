@@ -34560,7 +34560,7 @@ MonoBehaviour:
   totalPreyAllowed: 0
   allPreyFish: []
   predatorFishCount: 0
-  totalPredatorFishAllowed: 0
+  totalPredatorFishAllowed: 2
   allPredatorFish: []
   counterUpdateTime: 0.5
 --- !u!4 &1426286929
@@ -37262,7 +37262,7 @@ PrefabInstance:
     - target: {fileID: 7863852517467255079, guid: d0b39e00bb609544cad5daa518def87a,
         type: 3}
       propertyPath: m_Name
-      value: Spawner (1)
+      value: RedFishSpawner
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
