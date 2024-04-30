@@ -54,9 +54,6 @@ public class BugAI : MonoBehaviour
         {
             _flats.Add(go);
         }
-        _randomLight = Random.Range(0, _lights.Count);
-        _randomGlass = Random.Range(0, _glass.Count);
-        _randomFlat = Random.Range(0, _flats.Count);
         _behaviourNumber = Random.Range(0, 4);
         _bugLight = transform.GetChild(1).GetComponent<Light>();
         _landed = false;
