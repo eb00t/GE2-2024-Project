@@ -43,6 +43,7 @@ public class GlobalVariables : MonoBehaviour
     {
         canBugsDieFromLights = !canBugsDieFromLights;
         Debug.Log(canBugsDieFromLights);
+        GetImmediateBugNumber();
         foreach (GameObject go in allBugs)
         {
             go.GetComponent<BugAI>().canDieFromLights = canBugsDieFromLights;
@@ -52,11 +53,16 @@ public class GlobalVariables : MonoBehaviour
    public void KillAllBugs()
     {
         Debug.Log("Killed all bugs.");
-        StopCoroutine(CountBugs());
-        StartCoroutine(CountBugs());
+        GetImmediateBugNumber();
         foreach (GameObject go in allBugs)
         {
             go.GetComponent<BugAI>().ActuallyDieForReal();
         }
+    }
+
+    private void GetImmediateBugNumber()
+    {
+        StopCoroutine(CountBugs());
+        StartCoroutine(CountBugs());
     }
 }
