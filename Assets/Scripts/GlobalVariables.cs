@@ -44,7 +44,6 @@ public class GlobalVariables : MonoBehaviour
                 tempCurrentBugs++;
                 allBugs.Add(go);
             }
-
             bugCount = tempCurrentBugs;
             Debug.Log("There are currently " + bugCount + " bugs.");
             yield return new WaitForSecondsRealtime(1f);
@@ -65,11 +64,11 @@ public class GlobalVariables : MonoBehaviour
     public void KillAllBugs()
     {
         Debug.Log("Killed all bugs.");
-        GetImmediateBugNumber();
         foreach (GameObject go in allBugs)
         {
             go.GetComponent<BugAI>().ActuallyDieForReal();
         }
+        GetImmediateBugNumber();
     }
 
     private void GetImmediateBugNumber()
@@ -105,11 +104,11 @@ public class GlobalVariables : MonoBehaviour
     public void KillAllPreyFish()
     {
         Debug.Log("Killed all prey fish. The predators are going to be hungry.");
-        GetImmediatePreyFishNumber();
         foreach (GameObject go in allPreyFish)
         {
-            go.GetComponent<FishAI>().Die();
+            go.GetComponent<FishAI>().DieStart();
         }
+        GetImmediatePreyFishNumber();
     }
 }
 

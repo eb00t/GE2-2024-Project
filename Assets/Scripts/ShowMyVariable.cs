@@ -11,7 +11,9 @@ public class ShowMyVariable : MonoBehaviour
     public enum VariableToShow
     {
         BugCount,
-        BugsAlive
+        BugsAlive,
+        OrangeFishCount,
+        PreyFishAlive
     }
     public VariableToShow variable;
     void Start()
@@ -30,6 +32,12 @@ public class ShowMyVariable : MonoBehaviour
             break;
             case VariableToShow.BugsAlive: 
                 _message = _globalVariables.bugCount.ToString();
+                break;
+            case VariableToShow.OrangeFishCount:
+                _message = _globalVariables.totalOrangeFishAllowed.ToString();
+                break;
+            case VariableToShow.PreyFishAlive: 
+                _message = _globalVariables.preyFishCount.ToString();
                 break;
         }
         _text.text = _message;

@@ -54,15 +54,20 @@ public class RedFishAI : MonoBehaviour
                 _boid.maxSpeed = 5;
                 break;
             case AIStates.Chasing:
-                _noiseWander.enabled = false;
                 _pursue.enabled = true;
+                if (_pursue.target == null)
+                {
+                    _pursue.target = _globalVariables.allPreyFish[_rngNumber].GetComponent<Boid>();
+                }
+                _noiseWander.enabled = false;
                 _boid.maxSpeed = 10;
                 _harmonic.frequency = 0.4f;
-                _pursue.target = _globalVariables.allPreyFish[_rngNumber].GetComponent<Boid>();
                 if (Vector3.Distance(gameObject.transform.position, _pursue.target.gameObject.transform.position) < 5)
                 {
                     _pursue.target.gameObject.GetComponent<FishAI>().Die();
                 }
+                
+
                 break;
         }
     }

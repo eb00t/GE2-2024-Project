@@ -94,8 +94,8 @@ public class FishAI : MonoBehaviour
             yield return new WaitForSecondsRealtime(1f);
         }
     }
-    
-    public IEnumerator Die()
+
+    public void DieStart()
     {
         _boid.enabled = false;
         _flee.enabled = false;
@@ -103,7 +103,10 @@ public class FishAI : MonoBehaviour
         _harmonic.enabled = false;
         _noiseWander.enabled = false;
         _spineAnimator.enabled = false;
-        gameObject.SetActive(false);
+        StartCoroutine(Die());
+    }
+    public IEnumerator Die()
+    {
         foreach (GameObject go in allSegments)
         {
             go.AddComponent<Rigidbody>().useGravity = false;
