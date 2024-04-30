@@ -5,23 +5,25 @@ using UnityEngine.Serialization;
 
 public class GlobalVariables : MonoBehaviour
 {
-    public int bugCount = 0;
+    [Header("Bug Info")] public int bugCount = 0;
     public int totalBugsAllowed;
-    public List<GameObject> allBugs;
     public bool canBugsDieFromLights;
+    public List<GameObject> allBugs;
+
+    [Header("Fish Info")] public int orangeFishCount;
+    public int preyFishCount;
+    public int totalOrangeFishAllowed;
+    public List<GameObject> allPreyFish;
+
     void Start()
     {
         StartCoroutine(CountBugs());
+        StartCoroutine(CountPreyFish());
         allBugs = new List<GameObject>();
+        allPreyFish = new List<GameObject>();
         canBugsDieFromLights = true;
     }
 
-    
-    void Update()
-    {
-        
-    }
-    
     IEnumerator CountBugs()
     {
         while (true)
@@ -33,6 +35,7 @@ public class GlobalVariables : MonoBehaviour
                 tempCurrentBugs++;
                 allBugs.Add(go);
             }
+
             bugCount = tempCurrentBugs;
             Debug.Log("There are currently " + bugCount + " bugs.");
             yield return new WaitForSecondsRealtime(10f);
@@ -49,8 +52,8 @@ public class GlobalVariables : MonoBehaviour
             go.GetComponent<BugAI>().canDieFromLights = canBugsDieFromLights;
         }
     }
-    
-   public void KillAllBugs()
+
+    public void KillAllBugs()
     {
         Debug.Log("Killed all bugs.");
         GetImmediateBugNumber();
@@ -65,4 +68,39 @@ public class GlobalVariables : MonoBehaviour
         StopCoroutine(CountBugs());
         StartCoroutine(CountBugs());
     }
+
+    IEnumerator CountPreyFish()
+    {
+        while (true)
+        {
+            int tempCurrentFish = 0;
+            allPreyFish.Clear();
+            foreach (GameObject go in GameObject.FindGameObjectsWithTag("PreyFish"))
+            {
+                tempCurrentFish++;
+                allPreyFish.Add(go);
+            }
+
+            preyFishCount = tempCurrentFish;
+            Debug.Log("There are currently " + preyFishCount + " edible fish.");
+            yield return new WaitForSecondsRealtime(10f);
+        }
+    }
+
+    private void GetImmediatePreyFishNumber()
+    {
+        StopCoroutine(CountPreyFish());
+        StartCoroutine(CountPreyFish());
+    }
+
+    public void KillAllPreyFish()
+    {
+        Debug.Log("Killed all prey fish. The predators are going to be hungry.");
+        GetImmediatePreyFishNumber();
+        foreach (GameObject go in allPreyFish)
+        {
+            ;
+        }
+    }
 }
+
