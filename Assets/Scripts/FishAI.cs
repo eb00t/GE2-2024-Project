@@ -13,8 +13,10 @@ public class FishAI : MonoBehaviour
     private Harmonic _harmonic;
     public List<GameObject> allSegments;
     private GameObject _fishRoot;
-    
+    private Animator _animator;//THIS IS JUST FOR SHRINKING, I AM SO TIRED OF THE EDITOR SOFT CRASHING
+
     public List<GameObject> evilFish;
+
     public enum AIStates
     {
         Wandering,
@@ -22,16 +24,18 @@ public class FishAI : MonoBehaviour
     }
 
     public AIStates states;
+    private static readonly int Shrink = Animator.StringToHash("Shrink");
 
     void Start()
     {
+        _animator = GetComponent<Animator>();
         _boid = GetComponent<Boid>();
         _noiseWander = GetComponent<NoiseWander>();
         _flee = GetComponent<Flee>();
         _obstacleAvoidance = GetComponent<ObstacleAvoidance>();
         _spineAnimator = GetComponent<SpineAnimator>();
         _harmonic = GetComponent<Harmonic>();
-        
+
         evilFish = new List<GameObject>();
         _flee.enabled = false;
         states = AIStates.Wandering;
@@ -83,6 +87,7 @@ public class FishAI : MonoBehaviour
             {
                 evilFish.Add(go);
             }
+
             foreach (GameObject go in evilFish)
             {
                 Debug.Log("Checking for bad guys.");
@@ -91,6 +96,7 @@ public class FishAI : MonoBehaviour
                     StartCoroutine(RunAway(go));
                 }
             }
+
             yield return new WaitForSecondsRealtime(1f);
         }
     }
@@ -105,14 +111,21 @@ public class FishAI : MonoBehaviour
         _spineAnimator.enabled = false;
         StartCoroutine(Die());
     }
+
     public IEnumerator Die()
     {
         foreach (GameObject go in allSegments)
         {
             go.AddComponent<Rigidbody>().useGravity = false;
+            go.transform.SetParent(gameObject.transform);
         }
         yield return new WaitForSecondsRealtime(Random.Range(1, 4));
-        Debug.Log("A fish has been eaten!");
+        Debug.Log("Orange fish was eaten.");
+        _animator.SetBool(Shrink, true);
+    }
+
+    public void DestroyMeCompletely()
+    {
         Destroy(gameObject.transform.root.gameObject);
     }
 }

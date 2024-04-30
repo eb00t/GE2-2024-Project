@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1523347286178944029}
   - component: {fileID: 9155048735805547695}
   - component: {fileID: 7072749595731899565}
+  - component: {fileID: 8629425032111558950}
   m_Layer: 0
   m_Name: BodySeg1
   m_TagString: Untagged
@@ -106,6 +107,27 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!95 &8629425032111558950
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 217298789230751221}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9b98f13bfc1811f4b80af13e5adeb51f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1172978498434904306
 GameObject:
   m_ObjectHideFlags: 0
@@ -503,6 +525,7 @@ GameObject:
   - component: {fileID: 5102692682329972775}
   - component: {fileID: 3596880212248646157}
   - component: {fileID: 3682938309725479165}
+  - component: {fileID: 6152243213195886907}
   m_Layer: 0
   m_Name: BodySeg5
   m_TagString: Untagged
@@ -597,6 +620,27 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!95 &6152243213195886907
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2299613547960402650}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9b98f13bfc1811f4b80af13e5adeb51f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &3509629184650237395
 GameObject:
   m_ObjectHideFlags: 0
@@ -661,7 +705,6 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 54b917655779b5d44b500cdd82496276, type: 2}
-  - {fileID: 2100000, guid: 08721aac7d47d50418886f298ac87d2d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -933,6 +976,7 @@ GameObject:
   - component: {fileID: 641919388811166532}
   - component: {fileID: 4567787943265472218}
   - component: {fileID: 3166248964628479025}
+  - component: {fileID: 8399127513077081802}
   m_Layer: 0
   m_Name: BodySegTail1
   m_TagString: Untagged
@@ -1027,6 +1071,27 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!95 &8399127513077081802
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4156154106006346387}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9b98f13bfc1811f4b80af13e5adeb51f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &4969604173973083441
 GameObject:
   m_ObjectHideFlags: 0
@@ -1039,6 +1104,7 @@ GameObject:
   - component: {fileID: 8175036154519587923}
   - component: {fileID: 2526068519820113389}
   - component: {fileID: 1131057308468590608}
+  - component: {fileID: 8217241788612837280}
   m_Layer: 0
   m_Name: BodySeg4
   m_TagString: Untagged
@@ -1134,6 +1200,27 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!95 &8217241788612837280
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4969604173973083441}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9b98f13bfc1811f4b80af13e5adeb51f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &5146174913439984748
 GameObject:
   m_ObjectHideFlags: 0
@@ -1146,6 +1233,7 @@ GameObject:
   - component: {fileID: 2204855325121267983}
   - component: {fileID: 47031009238052446}
   - component: {fileID: 8106596271167108725}
+  - component: {fileID: 1724374286351913020}
   m_Layer: 0
   m_Name: BodySeg3
   m_TagString: Untagged
@@ -1241,6 +1329,27 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!95 &1724374286351913020
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5146174913439984748}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9b98f13bfc1811f4b80af13e5adeb51f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &5920634401630529210
 GameObject:
   m_ObjectHideFlags: 0
@@ -1253,6 +1362,7 @@ GameObject:
   - component: {fileID: 6976550585721574813}
   - component: {fileID: 9052846131195642045}
   - component: {fileID: 5615369178861190681}
+  - component: {fileID: 1378203920012567729}
   m_Layer: 0
   m_Name: BodySegTail3
   m_TagString: Untagged
@@ -1347,6 +1457,27 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!95 &1378203920012567729
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5920634401630529210}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9b98f13bfc1811f4b80af13e5adeb51f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &6006060191217264756
 GameObject:
   m_ObjectHideFlags: 0
@@ -1359,6 +1490,7 @@ GameObject:
   - component: {fileID: 4494757262231721818}
   - component: {fileID: 193145063588017510}
   - component: {fileID: 4845222703762438234}
+  - component: {fileID: 4541328554710129604}
   m_Layer: 0
   m_Name: BodySeg2
   m_TagString: Untagged
@@ -1456,6 +1588,27 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!95 &4541328554710129604
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6006060191217264756}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9b98f13bfc1811f4b80af13e5adeb51f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &6064282471179665013
 GameObject:
   m_ObjectHideFlags: 0
@@ -1468,6 +1621,7 @@ GameObject:
   - component: {fileID: 729324461536553627}
   - component: {fileID: 202845554946925526}
   - component: {fileID: 7793644621972463121}
+  - component: {fileID: 27074785178972556}
   m_Layer: 0
   m_Name: BodySeg6
   m_TagString: Untagged
@@ -1562,6 +1716,27 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!95 &27074785178972556
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6064282471179665013}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9b98f13bfc1811f4b80af13e5adeb51f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &6209145323894499833
 GameObject:
   m_ObjectHideFlags: 0
@@ -1581,6 +1756,7 @@ GameObject:
   - component: {fileID: 6956672902241332457}
   - component: {fileID: 8885088608906521715}
   - component: {fileID: 6905252844150244993}
+  - component: {fileID: 6610802420579491235}
   m_Layer: 0
   m_Name: FishHead
   m_TagString: PreyFish
@@ -1687,6 +1863,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12af54aa499e1e844bba375757b31413, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  allSegments: []
   evilFish: []
   states: 0
 --- !u!114 &2538795549261307230
@@ -1817,6 +1994,27 @@ MonoBehaviour:
   boid: {fileID: 0}
   targetGameObject: {fileID: 0}
   target: {x: 0, y: 0, z: 0}
+--- !u!95 &6610802420579491235
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6209145323894499833}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9b98f13bfc1811f4b80af13e5adeb51f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &8291127596697272524
 GameObject:
   m_ObjectHideFlags: 0
@@ -1881,7 +2079,6 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 54b917655779b5d44b500cdd82496276, type: 2}
-  - {fileID: 2100000, guid: 08721aac7d47d50418886f298ac87d2d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2153,6 +2350,7 @@ GameObject:
   - component: {fileID: 8871422946074590869}
   - component: {fileID: 1452496679388744004}
   - component: {fileID: 5975288325240804108}
+  - component: {fileID: 128436530668185596}
   m_Layer: 0
   m_Name: BodySegTail2
   m_TagString: Untagged
@@ -2247,3 +2445,24 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!95 &128436530668185596
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8650492675965794500}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9b98f13bfc1811f4b80af13e5adeb51f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

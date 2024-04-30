@@ -13,7 +13,9 @@ public class ShowMyVariable : MonoBehaviour
         BugCount,
         BugsAlive,
         OrangeFishCount,
-        PreyFishAlive
+        PreyFishAlive,
+        PredatorCount,
+        PredatorFishAlive
     }
     public VariableToShow variable;
     void Start()
@@ -38,6 +40,9 @@ public class ShowMyVariable : MonoBehaviour
                 break;
             case VariableToShow.PreyFishAlive: 
                 _message = _globalVariables.preyFishCount.ToString();
+                break;
+            case VariableToShow.PredatorCount:
+                _message = _globalVariables.totalPredatorFishAllowed.ToString();
                 break;
         }
         _text.text = _message;

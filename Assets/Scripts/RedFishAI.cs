@@ -17,6 +17,8 @@ public class RedFishAI : MonoBehaviour
     public List<GameObject> _allSegments;
     public bool canEat = true;
     private int _rngNumber;
+    private Vector3 _size;
+    private Animator _animator; //THIS IS JUST FOR SHRINKING, I AM SO TIRED OF THE EDITOR SOFT CRASHING
 
     public enum AIStates
     {
@@ -25,9 +27,11 @@ public class RedFishAI : MonoBehaviour
     }
 
     public AIStates states;
+    private static readonly int Shrink = Animator.StringToHash("Shrink");
 
     void Start()
     {
+        _size = gameObject.transform.localScale;
         _boid = GetComponent<Boid>();
         _hunger = Random.Range(70, 110);
         _globalVariables = GameObject.FindWithTag("GlobalVariables").GetComponent<GlobalVariables>();
@@ -41,7 +45,7 @@ public class RedFishAI : MonoBehaviour
         _fishRoot = transform.root.gameObject;
         foreach (Transform tf in _fishRoot.GetComponentsInChildren<Transform>())
         {
-            if (tf.gameObject.name.Contains("Red Fish"))
+            if (tf.gameObject.name.Contains("Red Fish")) //The root object should not move or do anything.
             {
                 //Get outta here.
             }
@@ -50,6 +54,7 @@ public class RedFishAI : MonoBehaviour
                 _allSegments.Add(tf.gameObject);
             }
         }
+        _animator = GetComponent<Animator>();
     }
 
     void Update()
@@ -72,9 +77,10 @@ public class RedFishAI : MonoBehaviour
                 _noiseWander.enabled = false;
                 _boid.maxSpeed = 10;
                 _harmonic.frequency = 0.4f;
-                if (Vector3.Distance(gameObject.transform.position, _pursue.target.gameObject.transform.position) < 5)
+                if (Vector3.Distance(gameObject.transform.position, _pursue.target.gameObject.transform.position) < 12.5f)
                 {
-                    _pursue.target.gameObject.GetComponent<FishAI>().Die();
+                    _hunger = 100;
+                    _pursue.target.gameObject.GetComponent<FishAI>().DieStart();
                 }
 
                 break;
@@ -114,24 +120,17 @@ public class RedFishAI : MonoBehaviour
         //_spineAnimator.enabled = false;
         foreach (GameObject go in _allSegments)
         {
-            Vector3 size = go.transform.localScale;
             go.AddComponent<Rigidbody>().useGravity = false;
-            StartCoroutine(ShrinkEm(size, go));
+            go.transform.SetParent(gameObject.transform);
         }
         yield return new WaitForSecondsRealtime(Random.Range(1, 4));
         Debug.Log("Red fish has starved to death.");
-
-        if (transform.localScale == new Vector3(0, 0, 0))
-        {
-            Destroy(gameObject.transform.root.gameObject);
-        }
+      _animator.SetBool(Shrink, true);
     }
 
-    IEnumerator ShrinkEm(Vector3 size, GameObject go)
+    public void DestroyMeCompletely()
     {
-        while (true)
-        {
-            go.transform.localScale = Vector3.Lerp(size, new Vector3(0,0,0), 0.005f * Time.time);
-        }
+        Destroy(gameObject.transform.root.gameObject);
     }
+    
 }
