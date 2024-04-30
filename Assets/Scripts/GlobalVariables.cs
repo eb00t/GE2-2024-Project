@@ -72,7 +72,6 @@ public class GlobalVariables : MonoBehaviour
                 tempCurrentFish++;
                 allPreyFish.Add(go);
             }
-
             preyFishCount = tempCurrentFish;
             Debug.Log("There are currently " + preyFishCount + " edible fish.");
             yield return new WaitForSecondsRealtime(counterUpdateTime);
