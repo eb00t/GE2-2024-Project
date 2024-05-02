@@ -54,4 +54,9 @@ public class PlayerInputManager : MonoBehaviour
     {
         return _playerMovement.Player.Jump.triggered;
     }
+
+    public bool Pause()
+    {
+        return _playerMovement.Player.Pause.triggered;
+    }
 }
