@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class Quit : MonoBehaviour
 {
-   void StopPlaying()
+  public void StopPlaying()
    {
+       Debug.Log("Quit button pressed!");
       Application.Quit();
    }
 }

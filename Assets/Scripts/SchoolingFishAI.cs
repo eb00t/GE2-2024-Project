@@ -65,8 +65,8 @@ public class SchoolingFishAI : MonoBehaviour
                 _noiseWander.enabled = false;
                 _flee.enabled = false;
                 _boid.maxSpeed = 5;
-                _spineAnimator.bondDamping = 3;
-                _spineAnimator.angularBondDamping = 2;
+                _spineAnimator.bondDamping = 5;
+                _spineAnimator.angularBondDamping = 3;
                 break;
             case AIStates.Wandering:
                 _offsetPursue.enabled = false;
