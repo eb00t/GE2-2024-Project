@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
@@ -14,9 +15,13 @@ public class PlayerController : MonoBehaviour
     private Transform _cameraTransform;
     private CapsuleCollider _capsuleCollider;
     private LayerMask _groundLayer;
+    private Camera _camera;
     private CinemachineVirtualCamera _vcam;
-    private CinemachineInputProvider _camera;
+    private CinemachineInputProvider _cameraInputProvider;
     private CinemachineBasicMultiChannelPerlin _cmPerlin;
+    private LayerMask _playerMask;
+    private GameObject _hand;
+    private bool _holdingSomething = false;
 
     [Header("Player Attributes")] 
     [SerializeField] private float playerSpeed = 2.0f;
@@ -36,9 +41,12 @@ public class PlayerController : MonoBehaviour
             _cameraTransform = Camera.main.transform;
         }
 
+        _hand = GameObject.Find("Hold");
+        _playerMask = LayerMask.GetMask("IgnoreByPlayerCam");
         _vcam = GameObject.Find("Virtual Camera").GetComponent<CinemachineVirtualCamera>();
-        _camera = GameObject.Find("Virtual Camera").GetComponent<CinemachineInputProvider>();
+        _cameraInputProvider = GameObject.Find("Virtual Camera").GetComponent<CinemachineInputProvider>();
         _cmPerlin = _vcam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     void FixedUpdate()
@@ -46,7 +54,7 @@ public class PlayerController : MonoBehaviour
 
         if (controlsEnabled)
         {
-            _camera.enabled = true;
+            _cameraInputProvider.enabled = true;
             float radius = _capsuleCollider.radius * 0.9f;
 
             Vector3 pos = transform.position + Vector3.up * (radius * 0.9f);
@@ -90,7 +98,32 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            _camera.enabled = false;
+            _cameraInputProvider.enabled = false;
+        }
+
+        if (_playerInputManager.PickUp())
+        {
+            RaycastHit hit;
+            Ray ray = _camera.ScreenPointToRay(Mouse.current.position.ReadValue());
+            GameObject heldObj = null;
+            if (Physics.Raycast(ray, out hit, 5f, _playerMask))
+            {
+                if (!_holdingSomething && hit.transform.CompareTag("Pickup"))
+                {
+                    Debug.Log("RayCast Attempted!");
+                    var rayRb = hit.rigidbody;
+                    rayRb.isKinematic = true;
+                    hit.transform.SetParent(_hand.transform);
+                    hit.transform.position = _hand.transform.position;
+                    _holdingSomething = true;
+                }
+                else
+                {
+                    heldObj.transform.SetParent(null);
+                    heldObj.GetComponent<Rigidbody>().AddForce(new Vector3(10f, 0f, 0f), ForceMode.Impulse);
+                    _holdingSomething = false;
+                }
+            }
         }
     }
 }

@@ -15,7 +15,8 @@ public class PauseGame : MonoBehaviour
 
     
    void Start()
-    {
+   {
+       _isPaused = false;
         _playerInputManager = PlayerInputManager.Instance;
         _volume = GameObject.FindWithTag("GlobalVolume").GetComponent<Volume>();
         _playerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
@@ -35,12 +36,14 @@ public class PauseGame : MonoBehaviour
             _playerController.controlsEnabled = false;
             _menuCanvas.SetActive(true);
             _volume.gameObject.SetActive(true);
+            Cursor.lockState = CursorLockMode.Locked;
         }
         else
         {
             _menuCanvas.SetActive(false);
             _playerController.controlsEnabled = true;
             _volume.gameObject.SetActive(false);
+            Cursor.lockState = CursorLockMode.None;
         }
     }
 }

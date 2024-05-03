@@ -59,4 +59,9 @@ public class PlayerInputManager : MonoBehaviour
     {
         return _playerMovement.Player.Pause.triggered;
     }
+    
+     public bool PickUp()
+        {
+            return _playerMovement.Player.PickUp.triggered;
+        }
 }

@@ -15,6 +15,7 @@ TagManager:
   - PreyFishSpawner
   - GlobalVolume
   - MenuCanvas
+  - Pickup
   layers:
   - Default
   - TransparentFX
