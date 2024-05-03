@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
     private Transform _cameraTransform;
     private CapsuleCollider _capsuleCollider;
     private LayerMask _groundLayer;
-    private Camera _camera;
+   
     private CinemachineVirtualCamera _vcam;
     private CinemachineInputProvider _cameraInputProvider;
     private CinemachineBasicMultiChannelPerlin _cmPerlin;
@@ -43,6 +43,7 @@ public class PlayerController : MonoBehaviour
 
         _hand = GameObject.Find("Hold");
         _playerMask = LayerMask.GetMask("IgnoreByPlayerCam");
+        
         _vcam = GameObject.Find("Virtual Camera").GetComponent<CinemachineVirtualCamera>();
         _cameraInputProvider = GameObject.Find("Virtual Camera").GetComponent<CinemachineInputProvider>();
         _cmPerlin = _vcam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
@@ -103,8 +104,8 @@ public class PlayerController : MonoBehaviour
 
         if (_playerInputManager.PickUp())
         {
+            Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
             RaycastHit hit;
-            Ray ray = _camera.ScreenPointToRay(Mouse.current.position.ReadValue());
             GameObject heldObj = null;
             if (Physics.Raycast(ray, out hit, 5f, _playerMask))
             {
@@ -123,6 +124,10 @@ public class PlayerController : MonoBehaviour
                     heldObj.GetComponent<Rigidbody>().AddForce(new Vector3(10f, 0f, 0f), ForceMode.Impulse);
                     _holdingSomething = false;
                 }
+            }
+            else
+            {
+                Debug.Log("Nothing.");
             }
         }
     }
