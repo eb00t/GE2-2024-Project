@@ -61,7 +61,7 @@ public class PlayerInputManager : MonoBehaviour
     }
     
      public bool PickUp()
-        {
-            return _playerMovement.Player.PickUp.triggered;
-        }
+     {
+         return _playerMovement.Player.PickUp.triggered;
+     }
 }
