@@ -7,6 +7,7 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
 {
+    
     private CharacterController controller;
     private Vector3 playerVelocity;
     private bool groundedPlayer;
@@ -14,6 +15,7 @@ public class PlayerController : MonoBehaviour
     private Transform _cameraTransform;
     private CapsuleCollider _capsuleCollider;
     private LayerMask _groundLayer;
+    private CinemachineVirtualCamera _vcam;
     private CinemachineInputProvider _camera;
 
     [Header("Player Attributes")] 
@@ -34,6 +36,7 @@ public class PlayerController : MonoBehaviour
             _cameraTransform = Camera.main.transform;
         }
 
+        _vcam = GameObject.Find("Virtual Camera").GetComponent<CinemachineVirtualCamera>();
         _camera = GameObject.Find("Virtual Camera").GetComponent<CinemachineInputProvider>();
     }
 
@@ -61,6 +64,15 @@ public class PlayerController : MonoBehaviour
                 move.y = 0;
             }
 
+            if (movement.x != 0 || movement.y != 0) 
+            {
+                _vcam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_FrequencyGain = 1; 
+            }
+            else
+            {
+                _vcam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_FrequencyGain = 0; 
+            }
+            
             controller.Move(move * Time.deltaTime * playerSpeed);
 
             if (_playerInputManager.PlayerJumpedThisFrame() && groundedPlayer)
