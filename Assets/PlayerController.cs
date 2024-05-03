@@ -7,7 +7,6 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
 {
-    
     private CharacterController controller;
     private Vector3 playerVelocity;
     private bool groundedPlayer;
@@ -17,6 +16,7 @@ public class PlayerController : MonoBehaviour
     private LayerMask _groundLayer;
     private CinemachineVirtualCamera _vcam;
     private CinemachineInputProvider _camera;
+    private CinemachineBasicMultiChannelPerlin _cmPerlin;
 
     [Header("Player Attributes")] 
     [SerializeField] private float playerSpeed = 2.0f;
@@ -38,6 +38,7 @@ public class PlayerController : MonoBehaviour
 
         _vcam = GameObject.Find("Virtual Camera").GetComponent<CinemachineVirtualCamera>();
         _camera = GameObject.Find("Virtual Camera").GetComponent<CinemachineInputProvider>();
+        _cmPerlin = _vcam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
     }
 
     void FixedUpdate()
@@ -66,11 +67,11 @@ public class PlayerController : MonoBehaviour
 
             if (movement.x != 0 || movement.y != 0) 
             {
-                _vcam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_FrequencyGain = 1; 
+                _cmPerlin.m_FrequencyGain = 1; 
             }
             else
             {
-                _vcam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_FrequencyGain = 0; 
+                _cmPerlin.m_FrequencyGain = 0; 
             }
             
             controller.Move(move * Time.deltaTime * playerSpeed);
