@@ -32,7 +32,7 @@ public class CountSlider : MonoBehaviour
                 _slider.value = _globalVariables.totalPredatorFishAllowed;
                 break;
             case ShowWhat.TotalSchoolFish:
-                _slider.value = _globalVariables.totalOrangeFishAllowed;
+                _slider.value = _globalVariables.totalSchoolFishAllowed;
                 break;
         }
        

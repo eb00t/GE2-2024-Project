@@ -13,9 +13,11 @@ public class ShowMyVariable : MonoBehaviour
         BugCount,
         BugsAlive,
         OrangeFishCount,
+        SchoolFishCount,
         PreyFishAlive,
         PredatorCount,
-        PredatorFishAlive
+        PredatorFishAlive,
+        SchoolFishLeaderCount
     }
     public VariableToShow variable;
     void Start()
@@ -28,15 +30,18 @@ public class ShowMyVariable : MonoBehaviour
     void Update()
     {
         switch (variable)
-        {
+        { 
             case VariableToShow.BugCount:
-            _message = _globalVariables.totalBugsAllowed.ToString();
-            break;
-            case VariableToShow.BugsAlive: 
+                _message = _globalVariables.totalBugsAllowed.ToString();
+                break;
+            case VariableToShow.BugsAlive:
                 _message = _globalVariables.bugCount.ToString();
                 break;
             case VariableToShow.OrangeFishCount:
                 _message = _globalVariables.totalOrangeFishAllowed.ToString();
+                break;
+            case VariableToShow.SchoolFishCount:
+                _message = _globalVariables.totalSchoolFishAllowed.ToString();
                 break;
             case VariableToShow.PreyFishAlive: 
                 _message = _globalVariables.preyFishCount.ToString();

@@ -14,13 +14,16 @@ public class GlobalVariables : MonoBehaviour
     [Header("Prey Fish Info")] 
     public int orangeFishCount;
     public int schoolFishCount;
+    public int schoolFishLeaderCount;
     public int preyFishCount;
     public int totalOrangeFishAllowed;
     public int totalSchoolFishAllowed;
+    public int totalSchoolFishLeadersAllowed;
     public int totalPreyAllowed;
     public List<GameObject> allPreyFish;
     public List<GameObject> allOrangeFish;
     public List<GameObject> allSchoolingFish;
+    public List<GameObject> allSchoolingFishLeaders;
     
     [Header("Predator Fish Info")]
     public int predatorFishCount;
@@ -82,6 +85,14 @@ public class GlobalVariables : MonoBehaviour
                 }
             }
             
+            foreach (GameObject go in GameObject.FindGameObjectsWithTag("SchoolFishLeader"))
+            {
+                if (!allSchoolingFishLeaders.Contains(go))
+                {
+                    allSchoolingFishLeaders.Add(go);
+                }
+            }
+            
             foreach (GameObject go in allOrangeFish)
             {
                 if (!allPreyFish.Contains(go))
@@ -98,8 +109,9 @@ public class GlobalVariables : MonoBehaviour
             }
             orangeFishCount = allOrangeFish.Count;
             schoolFishCount = allSchoolingFish.Count;
+            schoolFishLeaderCount = allSchoolingFishLeaders.Count;
             preyFishCount = allPreyFish.Count;
-            Debug.Log("There are currently " + preyFishCount + " edible fish, " + orangeFishCount + " orange fish and " + schoolFishCount + " schooling fish.");
+            Debug.Log("There are currently " + preyFishCount + " edible fish, " + orangeFishCount + " orange fish and " + (schoolFishCount+ schoolFishLeaderCount) + " schooling fish.");
             yield return new WaitForSecondsRealtime(counterUpdateTime);
         }
     }

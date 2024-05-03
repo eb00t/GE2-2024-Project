@@ -16,7 +16,6 @@ public class RedFishAI : MonoBehaviour
     private SpineAnimator _spineAnimator;
     public List<GameObject> _allSegments;
     public bool canEat = true;
-    private int _rngNumber;
     private Vector3 _size;
     private Animator _animator; //THIS IS JUST FOR SHRINKING, I AM SO TIRED OF THE EDITOR SOFT CRASHING
 
@@ -71,9 +70,8 @@ public class RedFishAI : MonoBehaviour
                 _pursue.enabled = true;
                 if (_pursue.target == null)
                 {
-                    _pursue.target = _globalVariables.allPreyFish[_rngNumber].GetComponent<Boid>();
+                    _pursue.target = _globalVariables.allPreyFish[Rng()].GetComponent<Boid>();
                 }
-
                 _noiseWander.enabled = false;
                 _boid.maxSpeed = 10;
                 _harmonic.frequency = 0.4f;
@@ -82,11 +80,15 @@ public class RedFishAI : MonoBehaviour
                     _hunger = 100;
                     _pursue.target.gameObject.GetComponent<FishAI>().DieStart();
                 }
-
                 break;
         }
     }
 
+    private int Rng()
+    {
+        int randomNum = Random.Range(0, _globalVariables.schoolFishLeaderCount);
+        return randomNum;
+    }
     IEnumerator Hunger()
     {
         while (true)
@@ -101,7 +103,6 @@ public class RedFishAI : MonoBehaviour
                     break;
                 case < 60 and >= 0:
                     states = AIStates.Chasing;
-                    _rngNumber = Random.Range(0, _globalVariables.allPreyFish.Count);
                     break;
                 case >= 60:
                     states = AIStates.Wandering;

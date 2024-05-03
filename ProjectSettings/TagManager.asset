@@ -18,6 +18,7 @@ TagManager:
   - Pickup
   - OrangeFish
   - SchoolFish
+  - SchoolFishLeader
   layers:
   - Default
   - TransparentFX
