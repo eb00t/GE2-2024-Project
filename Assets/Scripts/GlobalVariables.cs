@@ -161,6 +161,15 @@ public class GlobalVariables : MonoBehaviour
             go.GetComponent<FishAI>().DieStart();
         }
     }
+
+    public void KillAllPredatorFish()
+    {
+        Debug.Log("Killed all predator fish. The prey were praying for this.");
+        foreach (GameObject go in allPredatorFish)
+        {
+            go.GetComponent<RedFishAI>().DieStart();
+        }
+    }
     
 
     

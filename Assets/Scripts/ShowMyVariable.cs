@@ -49,6 +49,12 @@ public class ShowMyVariable : MonoBehaviour
             case VariableToShow.PredatorCount:
                 _message = _globalVariables.totalPredatorFishAllowed.ToString();
                 break;
+            case VariableToShow.PredatorFishAlive:
+                _message = _globalVariables.predatorFishCount.ToString();
+            break;
+            case VariableToShow.SchoolFishLeaderCount:
+                _message = _globalVariables.totalSchoolFishLeadersAllowed.ToString();
+                break;
         }
         _text.text = _message;
     }

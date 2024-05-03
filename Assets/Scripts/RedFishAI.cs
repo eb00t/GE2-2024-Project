@@ -111,21 +111,25 @@ public class RedFishAI : MonoBehaviour
         }
     }
 
-    IEnumerator Die()
+    public void DieStart()
     {
         _boid.enabled = false;
         _pursue.enabled = false;
         _obstacleAvoidance.enabled = false;
         _harmonic.enabled = false;
         _noiseWander.enabled = false;
-        //_spineAnimator.enabled = false;
+        _spineAnimator.enabled = false;
+        StartCoroutine(Die());
+    }
+    IEnumerator Die()
+    {
         foreach (GameObject go in _allSegments)
         {
             go.AddComponent<Rigidbody>().useGravity = false;
             go.transform.SetParent(gameObject.transform);
         }
         yield return new WaitForSecondsRealtime(Random.Range(1, 4));
-        Debug.Log("Red fish has starved to death.");
+        Debug.Log("A red fish has died.");
       _animator.SetBool(Shrink, true);
     }
 
