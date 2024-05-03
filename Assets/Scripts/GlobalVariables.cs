@@ -13,11 +13,14 @@ public class GlobalVariables : MonoBehaviour
 
     [Header("Prey Fish Info")] 
     public int orangeFishCount;
+    public int schoolFishCount;
     public int preyFishCount;
     public int totalOrangeFishAllowed;
     public int totalSchoolFishAllowed;
     public int totalPreyAllowed;
     public List<GameObject> allPreyFish;
+    public List<GameObject> allOrangeFish;
+    public List<GameObject> allSchoolingFish;
     
     [Header("Predator Fish Info")]
     public int predatorFishCount;
@@ -48,14 +51,12 @@ public class GlobalVariables : MonoBehaviour
     {
         while (true)
         {
-            int tempCurrentBugs = 0;
             allBugs.Clear();
             foreach (GameObject go in GameObject.FindGameObjectsWithTag("Bug"))
             {
-                tempCurrentBugs++;
                 allBugs.Add(go);
             }
-            bugCount = tempCurrentBugs;
+            bugCount = allBugs.Count;
             Debug.Log("There are currently " + bugCount + " bugs.");
             yield return new WaitForSecondsRealtime(counterUpdateTime);
         }
@@ -65,15 +66,40 @@ public class GlobalVariables : MonoBehaviour
     {
         while (true)
         {
-            int tempCurrentFish = 0;
-            allPreyFish.Clear();
-            foreach (GameObject go in GameObject.FindGameObjectsWithTag("PreyFish"))
+            foreach (GameObject go in GameObject.FindGameObjectsWithTag("OrangeFish"))
             {
-                tempCurrentFish++;
-                allPreyFish.Add(go);
+                if (!allOrangeFish.Contains(go))
+                {
+                    allOrangeFish.Add(go);
+                }
             }
-            preyFishCount = tempCurrentFish;
-            Debug.Log("There are currently " + preyFishCount + " edible fish.");
+
+            foreach (GameObject go in GameObject.FindGameObjectsWithTag("SchoolFish"))
+            {
+                if (!allSchoolingFish.Contains(go))
+                {
+                    allSchoolingFish.Add(go);
+                }
+            }
+            
+            foreach (GameObject go in allOrangeFish)
+            {
+                if (!allPreyFish.Contains(go))
+                {
+                    allPreyFish.Add(go);
+                }
+            }
+            foreach (GameObject go in allSchoolingFish)
+            {
+                if (!allPreyFish.Contains(go))
+                {
+                    allPreyFish.Add(go);
+                }
+            }
+            orangeFishCount = allOrangeFish.Count;
+            schoolFishCount = allSchoolingFish.Count;
+            preyFishCount = allPreyFish.Count;
+            Debug.Log("There are currently " + preyFishCount + " edible fish, " + orangeFishCount + " orange fish and " + schoolFishCount + " schooling fish.");
             yield return new WaitForSecondsRealtime(counterUpdateTime);
         }
     }
@@ -100,7 +126,6 @@ public class GlobalVariables : MonoBehaviour
     {
         canBugsDieFromLights = !canBugsDieFromLights;
         Debug.Log(canBugsDieFromLights);
-        GetImmediateBugNumber();
         foreach (GameObject go in allBugs)
         {
             go.GetComponent<BugAI>().canDieFromLights = canBugsDieFromLights;
@@ -114,7 +139,6 @@ public class GlobalVariables : MonoBehaviour
         {
             go.GetComponent<BugAI>().ActuallyDieForReal();
         }
-        GetImmediateBugNumber();
     }
 
     public void KillAllPreyFish()
@@ -124,26 +148,8 @@ public class GlobalVariables : MonoBehaviour
         {
             go.GetComponent<FishAI>().DieStart();
         }
-        GetImmediatePreyFishNumber();
     }
     
-    private void GetImmediateBugNumber()
-    {
-        StopCoroutine(CountBugs());
-        StartCoroutine(CountBugs());
-    }
-
-    private void GetImmediatePreyFishNumber()
-    {
-        StopCoroutine(CountPreyFish());
-        StartCoroutine(CountPreyFish());
-    }
-    
-    private void GetImmediatePredatorFishNumber()
-    {
-        StopCoroutine(CountPredatorFish());
-        StartCoroutine(CountPredatorFish());
-    }
 
     
 }

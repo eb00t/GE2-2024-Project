@@ -346,7 +346,6 @@ GameObject:
   - component: {fileID: 2017265457680057806}
   - component: {fileID: 228754258138703814}
   - component: {fileID: 637785140118413013}
-  - component: {fileID: 6523601006963336703}
   m_Layer: 0
   m_Name: Bug
   m_TagString: Bug
@@ -587,27 +586,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!95 &6523601006963336703
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4846425600413722776}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 9b98f13bfc1811f4b80af13e5adeb51f, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &5187911141781326326
 GameObject:
   m_ObjectHideFlags: 0
@@ -832,6 +810,7 @@ GameObject:
   - component: {fileID: 8126789545158277264}
   - component: {fileID: 4228487964851446267}
   - component: {fileID: 1977497027803965325}
+  - component: {fileID: 7872578206956579}
   m_Layer: 0
   m_Name: BugBod
   m_TagString: Untagged
@@ -926,3 +905,24 @@ MonoBehaviour:
   upAndDown: 0
   upAndDown2: 0
   upAndDownRotate: 0
+--- !u!95 &7872578206956579
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8724236066989658576}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9b98f13bfc1811f4b80af13e5adeb51f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

@@ -45,12 +45,10 @@ public class PlayerController : MonoBehaviour
 
         _hand = GameObject.Find("Hold");
         _playerMask = LayerMask.GetMask("IgnoreByPlayerCam");
-        
         _vcam = GameObject.Find("Virtual Camera").GetComponent<CinemachineVirtualCamera>();
         _cameraInputProvider = GameObject.Find("Virtual Camera").GetComponent<CinemachineInputProvider>();
         _cmPerlin = _vcam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
         _holdingSomething = false;
-        Cursor.lockState = CursorLockMode.Locked;
     }
 
     void FixedUpdate()

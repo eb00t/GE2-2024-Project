@@ -130,6 +130,9 @@ public class RedFishAI : MonoBehaviour
 
     public void DestroyMeCompletely()
     {
+        gameObject.tag = null;
+        _globalVariables.allOrangeFish.Remove(gameObject);
+        _globalVariables.allPreyFish.Remove(gameObject);
         Destroy(gameObject.transform.root.gameObject);
     }
     

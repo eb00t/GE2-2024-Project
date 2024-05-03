@@ -36,14 +36,14 @@ public class PauseGame : MonoBehaviour
             _playerController.controlsEnabled = false;
             _menuCanvas.SetActive(true);
             _volume.gameObject.SetActive(true);
-            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.lockState = CursorLockMode.None;
         }
-        else
+        else if (_isPaused == false) 
         {
             _menuCanvas.SetActive(false);
             _playerController.controlsEnabled = true;
             _volume.gameObject.SetActive(false);
-            Cursor.lockState = CursorLockMode.None;
+            Cursor.lockState = CursorLockMode.Locked;
         }
     }
 }

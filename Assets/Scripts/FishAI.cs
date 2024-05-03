@@ -14,6 +14,7 @@ public class FishAI : MonoBehaviour
     public List<GameObject> allSegments;
     private GameObject _fishRoot;
     private Animator _animator;//THIS IS JUST FOR SHRINKING, I AM SO TIRED OF THE EDITOR SOFT CRASHING
+    private GlobalVariables _globalVariables;
 
     public List<GameObject> evilFish;
 
@@ -35,6 +36,7 @@ public class FishAI : MonoBehaviour
         _obstacleAvoidance = GetComponent<ObstacleAvoidance>();
         _spineAnimator = GetComponent<SpineAnimator>();
         _harmonic = GetComponent<Harmonic>();
+        _globalVariables = GameObject.FindWithTag("GlobalVariables").GetComponent<GlobalVariables>();
 
         evilFish = new List<GameObject>();
         _flee.enabled = false;
@@ -120,12 +122,16 @@ public class FishAI : MonoBehaviour
             go.transform.SetParent(gameObject.transform);
         }
         yield return new WaitForSecondsRealtime(Random.Range(1, 4));
-        Debug.Log("Orange fish was eaten.");
+        Debug.Log("Orange fish has died.");
         _animator.SetBool(Shrink, true);
+     
     }
 
     public void DestroyMeCompletely()
     {
+        gameObject.tag = null;
+        _globalVariables.allOrangeFish.Remove(gameObject);
+        _globalVariables.allPreyFish.Remove(gameObject);
         Destroy(gameObject.transform.root.gameObject);
     }
 }

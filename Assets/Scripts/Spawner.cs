@@ -32,16 +32,16 @@ public class Spawner : MonoBehaviour
         switch (toSpawn)
         {
             //FOR BUGS
-            case Spawns.Bugs:
-            if (_globalVariables.bugCount < (_globalVariables.totalBugsAllowed) && _timer <= 0)
-            {
-                _timer = 1;
-                Instantiate(_bug, gameObject.transform.position, Quaternion.identity);
-                _globalVariables.bugCount++;
-            }
-            _timer = Mathf.Clamp(_timer, 0, 1);
-            _timer -= Time.deltaTime;
-            break;
+            case Spawns.Bugs: 
+                if (_globalVariables.bugCount < (_globalVariables.totalBugsAllowed) && _timer <= 0)
+                {
+                    _timer = 1;
+                    Instantiate(_bug, gameObject.transform.position, Quaternion.identity);
+                    _globalVariables.bugCount++;
+                }
+                _timer = Mathf.Clamp(_timer, 0, 1);
+                _timer -= Time.deltaTime;
+                break;
             
             //FOR ORANGE FISH
             case Spawns.OrangeFish: 
