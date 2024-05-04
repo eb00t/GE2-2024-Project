@@ -68,7 +68,7 @@ public class BugAI : MonoBehaviour
                 break;
             case 2: //Seek Light
                 _randomLight = Random.Range(0, _lights.Count);
-                _willSuicide = Random.Range(0, 2);
+                _willSuicide = Random.Range(0, 11);
                 break;
             case 3: //Crash into Window
                 _randomGlass = Random.Range(0, _glass.Count);
@@ -90,7 +90,7 @@ public class BugAI : MonoBehaviour
                     break;
                 case 2: //Seek Light
                     _randomLight = Random.Range(0, _lights.Count);
-                    _willSuicide = Random.Range(0, 2);
+                    _willSuicide = Random.Range(0, 11);
                     break;
                 case 3: //Crash into Window
                     _randomGlass = Random.Range(0, _glass.Count);
@@ -140,7 +140,7 @@ public class BugAI : MonoBehaviour
                    case 1: //false
                        _obstacleAvoidance.enabled = false;
                        break;
-                   case 0: //true
+                   case not 1: //true
                        _obstacleAvoidance.enabled = true;
                        _obstacleAvoidance.forwardFeelerDepth = 3;
                        _obstacleAvoidance.sideFeelerDepth = 1;

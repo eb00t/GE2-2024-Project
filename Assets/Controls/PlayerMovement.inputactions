@@ -49,6 +49,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Switch Camera",
+                    "type": "Button",
+                    "id": "1acaa99b-7bd8-4b81-aa19-be63d7154c68",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -205,6 +214,39 @@
                     "action": "Pick Up",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "Increase/Decrease",
+                    "id": "38dccd51-8ec0-454a-b7be-ea2f96cdf570",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Switch Camera",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "ab39a57d-d6e9-4abe-8a0f-e5d5816b5f4b",
+                    "path": "<Keyboard>/z",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Switch Camera",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "6b344e28-e369-4ca8-b316-1e7e228a9623",
+                    "path": "<Keyboard>/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Switch Camera",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         },

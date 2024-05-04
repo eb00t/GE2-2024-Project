@@ -886,6 +886,7 @@ GameObject:
   - component: {fileID: 851284945341006906}
   - component: {fileID: 8311240354024488661}
   - component: {fileID: 8977551068636561394}
+  - component: {fileID: 1199067028502799423}
   - component: {fileID: 8589959873995538715}
   m_Layer: 0
   m_Name: FishHead
@@ -973,6 +974,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   allSegments: []
+  isFearless: 0
   evilFish: []
   states: 0
 --- !u!65 &5292493462593344881
@@ -1122,6 +1124,22 @@ MonoBehaviour:
   amplitude: 80
   distance: 5
   axis: 0
+--- !u!114 &1199067028502799423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7446804809448217518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3922dfabb7eb406ba6a8f4b0f8d084fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weight: 1
+  force: {x: 0, y: 0, z: 0}
+  boid: {fileID: 0}
+  target: {fileID: 0}
 --- !u!95 &8589959873995538715
 Animator:
   serializedVersion: 5

@@ -10,6 +10,7 @@ public class LeaderAI : MonoBehaviour
     private Flee _flee;
     private ObstacleAvoidance _obstacleAvoidance;
     private SpineAnimator _spineAnimator;
+    private Pursue _pursue;
     private Harmonic _harmonic;
     public List<GameObject> allSegments;
     private GameObject _fishRoot;
@@ -17,7 +18,10 @@ public class LeaderAI : MonoBehaviour
     private GlobalVariables _globalVariables;
     private CameraManager _cameraManager;
     public bool isFearless;
+    private bool _fleeing;
     public List<GameObject> evilFish;
+    public float changeStateTimer;
+    private int _behaviourNumber;
 
     public enum AIStates
     {
@@ -31,9 +35,11 @@ public class LeaderAI : MonoBehaviour
 
     void Start()
     {
+        changeStateTimer = Random.Range(15, 76);
         _animator = GetComponent<Animator>();
         _boid = GetComponent<Boid>();
         _noiseWander = GetComponent<NoiseWander>();
+        _pursue = GetComponent<Pursue>();
         _flee = GetComponent<Flee>();
         _obstacleAvoidance = GetComponent<ObstacleAvoidance>();
         _spineAnimator = GetComponent<SpineAnimator>();
@@ -52,10 +58,27 @@ public class LeaderAI : MonoBehaviour
         }
 
         _cameraManager = GameObject.FindWithTag("CameraManager").GetComponent<CameraManager>();
+        GetNewTarget();
     }
 
     void Update()
     {
+        changeStateTimer -= Time.deltaTime;
+        if (changeStateTimer <= 0 && !_fleeing)
+        {
+            _behaviourNumber = Random.Range(0, 1);
+            switch (_behaviourNumber)
+            {
+                case 0:
+                    states = AIStates.Wandering;
+                    break;
+                case 1:
+                    GetNewTarget();
+                    states = AIStates.FollowRandomOrangeFish;
+                    break;
+            }
+        }
+        
         switch (states)
         {
             case AIStates.Wandering:
@@ -73,6 +96,10 @@ public class LeaderAI : MonoBehaviour
                 _flee.enabled = true;
                 break;
             case AIStates.FollowRandomOrangeFish:
+                if (_pursue.target == null)
+                {
+                    states = AIStates.Wandering;
+                }
                 _noiseWander.enabled = false;
                 _boid.maxSpeed = 5;
                 _spineAnimator.bondDamping = 5;
@@ -83,11 +110,19 @@ public class LeaderAI : MonoBehaviour
 
     }
 
+    private void GetNewTarget()
+    {
+        _pursue.target = _globalVariables
+            .allOrangeFish[Random.Range(0, _globalVariables.allOrangeFish.Count)].GetComponent<Boid>();
+    }
+
     IEnumerator RunAway(GameObject target)
     {
         states = AIStates.Fleeing;
+        _fleeing = true;
         _flee.targetGameObject = target;
         yield return new WaitForSecondsRealtime(10f);
+        _fleeing = false;
         states = AIStates.Wandering;
     }
 

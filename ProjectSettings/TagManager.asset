@@ -21,6 +21,7 @@ TagManager:
   - SchoolFishLeader
   - FishCam
   - PlayerCam
+  - CameraManager
   layers:
   - Default
   - TransparentFX

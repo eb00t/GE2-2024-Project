@@ -71,6 +71,15 @@ public partial class @PlayerMovement: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Switch Camera"",
+                    ""type"": ""Button"",
+                    ""id"": ""1acaa99b-7bd8-4b81-aa19-be63d7154c68"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -227,6 +236,39 @@ public partial class @PlayerMovement: IInputActionCollection2, IDisposable
                     ""action"": ""Pick Up"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Increase/Decrease"",
+                    ""id"": ""38dccd51-8ec0-454a-b7be-ea2f96cdf570"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Switch Camera"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""ab39a57d-d6e9-4abe-8a0f-e5d5816b5f4b"",
+                    ""path"": ""<Keyboard>/z"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Switch Camera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""6b344e28-e369-4ca8-b316-1e7e228a9623"",
+                    ""path"": ""<Keyboard>/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Switch Camera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         },
@@ -817,6 +859,7 @@ public partial class @PlayerMovement: IInputActionCollection2, IDisposable
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
         m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
         m_Player_PickUp = m_Player.FindAction("Pick Up", throwIfNotFound: true);
+        m_Player_SwitchCamera = m_Player.FindAction("Switch Camera", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -895,6 +938,7 @@ public partial class @PlayerMovement: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Look;
     private readonly InputAction m_Player_Pause;
     private readonly InputAction m_Player_PickUp;
+    private readonly InputAction m_Player_SwitchCamera;
     public struct PlayerActions
     {
         private @PlayerMovement m_Wrapper;
@@ -904,6 +948,7 @@ public partial class @PlayerMovement: IInputActionCollection2, IDisposable
         public InputAction @Look => m_Wrapper.m_Player_Look;
         public InputAction @Pause => m_Wrapper.m_Player_Pause;
         public InputAction @PickUp => m_Wrapper.m_Player_PickUp;
+        public InputAction @SwitchCamera => m_Wrapper.m_Player_SwitchCamera;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -928,6 +973,9 @@ public partial class @PlayerMovement: IInputActionCollection2, IDisposable
             @PickUp.started += instance.OnPickUp;
             @PickUp.performed += instance.OnPickUp;
             @PickUp.canceled += instance.OnPickUp;
+            @SwitchCamera.started += instance.OnSwitchCamera;
+            @SwitchCamera.performed += instance.OnSwitchCamera;
+            @SwitchCamera.canceled += instance.OnSwitchCamera;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -947,6 +995,9 @@ public partial class @PlayerMovement: IInputActionCollection2, IDisposable
             @PickUp.started -= instance.OnPickUp;
             @PickUp.performed -= instance.OnPickUp;
             @PickUp.canceled -= instance.OnPickUp;
+            @SwitchCamera.started -= instance.OnSwitchCamera;
+            @SwitchCamera.performed -= instance.OnSwitchCamera;
+            @SwitchCamera.canceled -= instance.OnSwitchCamera;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1134,6 +1185,7 @@ public partial class @PlayerMovement: IInputActionCollection2, IDisposable
         void OnLook(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
         void OnPickUp(InputAction.CallbackContext context);
+        void OnSwitchCamera(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
