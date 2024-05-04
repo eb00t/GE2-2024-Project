@@ -20,6 +20,7 @@ public class GlobalVariables : MonoBehaviour
     public int totalSchoolFishAllowed;
     public int totalSchoolFishLeadersAllowed;
     public int totalPreyAllowed;
+    public bool fishAreFearful = true;
     public List<GameObject> allPreyFish;
     public List<GameObject> allOrangeFish;
     public List<GameObject> allSchoolingFish;
@@ -38,6 +39,7 @@ public class GlobalVariables : MonoBehaviour
         StartCoroutine(CountBugs());
         StartCoroutine(CountPreyFish());
         StartCoroutine(CountPredatorFish());
+        StartCoroutine(MaintainVariables());
         allBugs = new List<GameObject>();
         allPreyFish = new List<GameObject>();
         allPredatorFish = new List<GameObject>();
@@ -107,6 +109,14 @@ public class GlobalVariables : MonoBehaviour
                     allPreyFish.Add(go);
                 }
             }
+            foreach (GameObject go in allSchoolingFishLeaders)
+            {
+                if (!allPreyFish.Contains(go))
+                {
+                    allPreyFish.Add(go);
+                }
+            }
+
             orangeFishCount = allOrangeFish.Count;
             schoolFishCount = allSchoolingFish.Count;
             schoolFishLeaderCount = allSchoolingFishLeaders.Count;
@@ -141,6 +151,27 @@ public class GlobalVariables : MonoBehaviour
         foreach (GameObject go in allBugs)
         {
             go.GetComponent<BugAI>().canDieFromLights = canBugsDieFromLights;
+        }
+    }
+
+    public void FearlessFish()
+    {
+        fishAreFearful = !fishAreFearful;
+        Debug.Log("Fish Fear = " + fishAreFearful);
+        foreach (GameObject go in allPreyFish)
+        {
+            if (go.GetComponent<FishAI>() != null)
+            {
+                go.GetComponent<FishAI>().isFearless = fishAreFearful;
+            }
+            else if (go.GetComponent<SchoolingFishAI>() != null)
+            {
+                go.GetComponent<SchoolingFishAI>().isFearless = fishAreFearful;
+            }
+            else if (go.GetComponent<LeaderAI>() != null)
+            {
+                go.GetComponent<LeaderAI>().isFearless = fishAreFearful;
+            }
         }
     }
 
@@ -181,8 +212,35 @@ public class GlobalVariables : MonoBehaviour
             go.GetComponent<RedFishAI>().DieStart();
         }
     }
-    
 
-    
+    IEnumerator MaintainVariables()
+    {
+        while (true)
+        {
+            //Fear
+            foreach (GameObject go in allPreyFish)
+            {
+                if (go.GetComponent<FishAI>() != null)
+                {
+                    go.GetComponent<FishAI>().isFearless = fishAreFearful;
+                }
+                else if (go.GetComponent<SchoolingFishAI>() != null)
+                {
+                    go.GetComponent<SchoolingFishAI>().isFearless = fishAreFearful;
+                }
+                else if (go.GetComponent<LeaderAI>() != null)
+                {
+                    go.GetComponent<LeaderAI>().isFearless = fishAreFearful;
+                }
+            }
+            yield return new WaitForSecondsRealtime(0.5f);
+            //Bugs die to light
+            foreach (GameObject go in allBugs)
+            {
+                go.GetComponent<BugAI>().canDieFromLights = canBugsDieFromLights;
+            }
+            yield return new WaitForSecondsRealtime(0.5f);
+        }
+    }
 }
 

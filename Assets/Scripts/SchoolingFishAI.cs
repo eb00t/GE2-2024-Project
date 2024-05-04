@@ -17,7 +17,7 @@ public class SchoolingFishAI : MonoBehaviour
     private Animator _animator; //THIS IS JUST FOR SHRINKING, I AM SO TIRED OF THE EDITOR SOFT CRASHING
     private GlobalVariables _globalVariables;
     private CameraManager _cameraManager;
-    public bool isFearless;
+    public bool isFearless = false;
     
     public List<GameObject> evilFish;
 
@@ -53,7 +53,6 @@ public class SchoolingFishAI : MonoBehaviour
         {
             allSegments.Add(tf.gameObject);
         }
-
         _cameraManager = GameObject.FindWithTag("CameraManager").GetComponent<CameraManager>();
     }
 
@@ -90,6 +89,7 @@ public class SchoolingFishAI : MonoBehaviour
                 _spineAnimator.angularBondDamping = 3.9f;
                 break;
         }
+        
     }
 
     private int Rng()
@@ -99,13 +99,24 @@ public class SchoolingFishAI : MonoBehaviour
     }
 
 IEnumerator RunAway(GameObject target)
+{
+    switch (isFearless)
     {
-        states = AIStates.Fleeing;
-        _flee.targetGameObject = target;
-        yield return new WaitForSecondsRealtime(4f);
-        states = AIStates.Following;
-        _offsetPursue.leader = _globalVariables.allSchoolingFishLeaders[Rng()].GetComponent<Boid>();
+        case false:
+            states = AIStates.Fleeing;
+            _flee.targetGameObject = target;
+            yield return new WaitForSecondsRealtime(4f);
+            _offsetPursue.leader = _globalVariables.allSchoolingFishLeaders[Rng()].GetComponent<Boid>();
+            states = AIStates.Following;
+            break;
+        case true:
+            _offsetPursue.leader = _globalVariables.allSchoolingFishLeaders[Rng()].GetComponent<Boid>();
+            states = AIStates.Following;
+            yield return null;
+            break;
     }
+    
+}
 
     IEnumerator CheckForBadGuys()
     {
@@ -121,18 +132,24 @@ IEnumerator RunAway(GameObject target)
                         evilFish.Add(go);
                     }
 
-                    foreach (GameObject go in evilFish)
+                    if (!isFearless)
                     {
-                        Debug.Log("Checking for bad guys.");
-                        if (Vector3.Distance(go.transform.position, gameObject.transform.position) < 35f)
+                        foreach (GameObject go in evilFish)
                         {
-                            StartCoroutine(RunAway(go));
+                            Debug.Log("Checking for bad guys.");
+                            if (Vector3.Distance(go.transform.position, gameObject.transform.position) < 35f)
+                            {
+                                StartCoroutine(RunAway(go));
+                            }
                         }
                     }
 
                     yield return new WaitForSecondsRealtime(1f);
                     break;
                 }
+                case true:
+                    yield return null;
+                    break;
             }
         }
     }
@@ -140,6 +157,7 @@ IEnumerator RunAway(GameObject target)
     public void DieStart()
     {
         _boid.enabled = false;
+        _offsetPursue.enabled = false;
         _flee.enabled = false;
         _obstacleAvoidance.enabled = false;
         _harmonic.enabled = false;

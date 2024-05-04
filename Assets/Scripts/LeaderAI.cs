@@ -122,12 +122,21 @@ public class LeaderAI : MonoBehaviour
 
     IEnumerator RunAway(GameObject target)
     {
-        states = AIStates.Fleeing;
-        _fleeing = true;
-        _flee.targetGameObject = target;
-        yield return new WaitForSecondsRealtime(4f);
-        _fleeing = false;
-        states = AIStates.Wandering;
+        switch (isFearless)
+        {
+            case false:
+                states = AIStates.Fleeing;
+                _fleeing = true;
+                _flee.targetGameObject = target;
+                yield return new WaitForSecondsRealtime(4f);
+                _fleeing = false;
+                states = AIStates.Wandering;
+                break;
+            case true:
+                states = AIStates.Wandering;
+                yield return null;
+                break;
+        }
     }
 
     IEnumerator CheckForBadGuys()
@@ -144,17 +153,24 @@ public class LeaderAI : MonoBehaviour
                         evilFish.Add(go);
                     }
 
-                    foreach (GameObject go in evilFish)
+                    if (!isFearless)
                     {
-                        Debug.Log("Checking for bad guys.");
-                        if (Vector3.Distance(go.transform.position, gameObject.transform.position) < 35f)
+                        foreach (GameObject go in evilFish)
                         {
-                            StartCoroutine(RunAway(go));
+                            Debug.Log("Checking for bad guys.");
+                            if (Vector3.Distance(go.transform.position, gameObject.transform.position) < 35f)
+                            {
+                                StartCoroutine(RunAway(go));
+                            }
                         }
                     }
+
                     yield return new WaitForSecondsRealtime(1f);
                     break;
                 }
+                    case true:
+                    yield return null;
+                    break;
             }
         }
     }
