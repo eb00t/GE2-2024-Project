@@ -13,7 +13,7 @@ public class EyeHandler : MonoBehaviour
 
     void Start()
     {
-        _eyeBall = GameObject.Find("Eyeball");
+        _eyeBall = transform.Find("Eyeball").gameObject;
         _eyeAnims = GetComponent<Animator>();
         _player = GameObject.FindWithTag("Player");
         _eyeAnims.SetBool(Interested, true);

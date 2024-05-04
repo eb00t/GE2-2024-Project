@@ -29,9 +29,14 @@ public class GlobalVariables : MonoBehaviour
     [Header("Predator Fish Info")]
     public int predatorFishCount;
     public int totalPredatorFishAllowed;
+    public bool canRedFishEat = true;
+    public bool canRedFishStarve = true;
+    public bool redFishOmnicidal = false;
     public List<GameObject> allPredatorFish;
 
     private int _totalFishAllowed;
+
+    public List<GameObject> allFish;
     public float counterUpdateTime = 1f;
 
     void Start()
@@ -144,6 +149,27 @@ public class GlobalVariables : MonoBehaviour
         }
     }
 
+    IEnumerator CountAllFish()
+    {
+        foreach (GameObject go in allPreyFish)
+        {
+            if (!allFish.Contains(go))
+            {
+                allFish.Add(go);
+            }
+        }
+
+        foreach (GameObject go in allPredatorFish)
+        {
+            if (!allFish.Contains(go))
+            {
+                allFish.Add(go);
+            }
+        }
+
+        yield return new WaitForSecondsRealtime(counterUpdateTime);
+    }
+    
     public void ToggleLightDeath()
     {
         canBugsDieFromLights = !canBugsDieFromLights;
@@ -154,7 +180,7 @@ public class GlobalVariables : MonoBehaviour
         }
     }
 
-    public void FearlessFish()
+    public void FearlessFish() //This doesn't work.
     {
         fishAreFearful = !fishAreFearful;
         Debug.Log("Fish Fear = " + fishAreFearful);
@@ -163,15 +189,49 @@ public class GlobalVariables : MonoBehaviour
             if (go.GetComponent<FishAI>() != null)
             {
                 go.GetComponent<FishAI>().isFearless = fishAreFearful;
+                go.GetComponent<FishAI>().TurnEnemyCheckerOn();
             }
             else if (go.GetComponent<SchoolingFishAI>() != null)
             {
                 go.GetComponent<SchoolingFishAI>().isFearless = fishAreFearful;
+                go.GetComponent<SchoolingFishAI>().TurnEnemyCheckerOn();
             }
             else if (go.GetComponent<LeaderAI>() != null)
             {
                 go.GetComponent<LeaderAI>().isFearless = fishAreFearful;
+                go.GetComponent<LeaderAI>().TurnEnemyCheckerOn();
             }
+        }
+    }
+
+    public void CanFishEat()
+    {
+        canRedFishEat = !canRedFishEat;
+        Debug.Log("Red Fish Eat?" + canRedFishEat);
+        foreach (GameObject go in allPredatorFish)
+        {
+            go.GetComponent<RedFishAI>().canEat = canRedFishEat;
+        }
+    }
+
+    public void CanFishStarve()
+    {
+        canRedFishStarve = !canRedFishStarve;
+        Debug.Log("Red Fish Starve? " + canRedFishStarve);
+        foreach (GameObject go in allPredatorFish)
+        {
+            go.GetComponent<RedFishAI>().canStarve = canRedFishStarve;
+        }
+    }
+
+    public void OmnicidalFish()
+    {
+        redFishOmnicidal = !redFishOmnicidal;
+        Debug.Log("Red Fish Eat Everything? " + redFishOmnicidal);
+        foreach (GameObject go in allPredatorFish)
+        {
+            go.GetComponent<RedFishAI>().isOmnicidal = redFishOmnicidal;
+            go.GetComponent<RedFishAI>()._hunger = 50;
         }
     }
 
@@ -218,7 +278,7 @@ public class GlobalVariables : MonoBehaviour
         while (true)
         {
             //Fear
-            foreach (GameObject go in allPreyFish)
+            foreach (GameObject go in allPreyFish) //DOESN'T WORK; NOT FIXING; NOT WORTH IT.
             {
                 if (go.GetComponent<FishAI>() != null)
                 {
@@ -234,13 +294,31 @@ public class GlobalVariables : MonoBehaviour
                 }
             }
             yield return new WaitForSecondsRealtime(0.5f);
+                
             //Bugs die to light
             foreach (GameObject go in allBugs)
             {
                 go.GetComponent<BugAI>().canDieFromLights = canBugsDieFromLights;
             }
+
             yield return new WaitForSecondsRealtime(0.5f);
+            
+            //Fish Eating
+            RedFishAI rFAI;
+            foreach (GameObject go in allPredatorFish)
+            {
+                rFAI = go.GetComponent<RedFishAI>();
+                rFAI.canEat = canRedFishEat;
+                rFAI.canStarve = canRedFishStarve;
+                rFAI.isOmnicidal = redFishOmnicidal;
+            }
+            yield return new WaitForSecondsRealtime(0.5f);
+            
+            
         }
     }
+    
+    
 }
+
 

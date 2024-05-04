@@ -46,7 +46,7 @@ public class SchoolingFishAI : MonoBehaviour
         _flee.enabled = false;
         states = AIStates.Following;
         _offsetPursue.leader = _globalVariables.allSchoolingFishLeaders[Rng()].GetComponent<Boid>();
-        StartCoroutine(CheckForBadGuys());
+        TurnEnemyCheckerOn();
         allSegments = new List<GameObject>();
         _fishRoot = transform.root.gameObject;
         foreach (Transform tf in _fishRoot.GetComponentsInChildren<Transform>())
@@ -89,7 +89,11 @@ public class SchoolingFishAI : MonoBehaviour
                 _spineAnimator.angularBondDamping = 3.9f;
                 break;
         }
-        
+
+        if (isFearless)
+        {
+            StopCoroutine(CheckForBadGuys());
+        }
     }
 
     private int Rng()
@@ -100,57 +104,39 @@ public class SchoolingFishAI : MonoBehaviour
 
 IEnumerator RunAway(GameObject target)
 {
-    switch (isFearless)
+    if (!isFearless)
     {
-        case false:
-            states = AIStates.Fleeing;
-            _flee.targetGameObject = target;
-            yield return new WaitForSecondsRealtime(4f);
-            _offsetPursue.leader = _globalVariables.allSchoolingFishLeaders[Rng()].GetComponent<Boid>();
-            states = AIStates.Following;
-            break;
-        case true:
-            _offsetPursue.leader = _globalVariables.allSchoolingFishLeaders[Rng()].GetComponent<Boid>();
-            states = AIStates.Following;
-            yield return null;
-            break;
+        states = AIStates.Fleeing;
+        _flee.targetGameObject = target;
+        yield return new WaitForSecondsRealtime(4f);
+        _offsetPursue.leader = _globalVariables.allSchoolingFishLeaders[Rng()].GetComponent<Boid>();
+        states = AIStates.Following;
     }
-    
+    yield return null;
 }
 
     IEnumerator CheckForBadGuys()
     {
         while (true)
         {
-            switch (isFearless)
+            if (!isFearless)
             {
-                case false:
+                evilFish.Clear();
+                foreach (GameObject go in _globalVariables.allPredatorFish)
                 {
-                    evilFish.Clear();
-                    foreach (GameObject go in GameObject.FindGameObjectsWithTag("PredatorFish"))
-                    {
-                        evilFish.Add(go);
-                    }
-
-                    if (!isFearless)
-                    {
-                        foreach (GameObject go in evilFish)
-                        {
-                            Debug.Log("Checking for bad guys.");
-                            if (Vector3.Distance(go.transform.position, gameObject.transform.position) < 35f)
-                            {
-                                StartCoroutine(RunAway(go));
-                            }
-                        }
-                    }
-
-                    yield return new WaitForSecondsRealtime(1f);
-                    break;
+                    evilFish.Add(go);
                 }
-                case true:
-                    yield return null;
-                    break;
+                
+                foreach (GameObject go in evilFish)
+                {
+                    Debug.Log("Checking for bad guys.");
+                    if (Vector3.Distance(go.transform.position, gameObject.transform.position) < 35f)
+                    {
+                        StartCoroutine(RunAway(go));
+                    }
+                }
             }
+            yield return new WaitForSecondsRealtime(1f);
         }
     }
 
@@ -190,4 +176,10 @@ IEnumerator RunAway(GameObject target)
         }
         Destroy(gameObject.transform.root.gameObject);
     }
+    
+    public void TurnEnemyCheckerOn()
+    {
+        StartCoroutine(CheckForBadGuys());
+    }
+
 }

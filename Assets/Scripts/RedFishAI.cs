@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RedFishAI : MonoBehaviour
 {
-    private float _hunger = 100;
+    public float _hunger = 100;
     private Boid _boid;
     private Pursue _pursue;
     private ObstacleAvoidance _obstacleAvoidance;
@@ -17,6 +17,8 @@ public class RedFishAI : MonoBehaviour
     private SpineAnimator _spineAnimator;
     public List<GameObject> _allSegments;
     public bool canEat = true;
+    public bool canStarve = true;
+    public bool isOmnicidal = false;
     private Vector3 _size;
     private Animator _animator; //THIS IS JUST FOR SHRINKING, I AM SO TIRED OF THE EDITOR SOFT CRASHING
 
@@ -67,6 +69,8 @@ public class RedFishAI : MonoBehaviour
                 _pursue.enabled = false;
                 _harmonic.frequency = 0.3f;
                 _boid.maxSpeed = 5;
+                _spineAnimator.bondDamping = 1.75f;
+                _spineAnimator.angularBondDamping = 1.5f;
                 break;
             case AIStates.Chasing:
                 _pursue.enabled = true;
@@ -77,10 +81,33 @@ public class RedFishAI : MonoBehaviour
                 _noiseWander.enabled = false;
                 _boid.maxSpeed = 10;
                 _harmonic.frequency = 0.4f;
-                if (Vector3.Distance(gameObject.transform.position, _pursue.target.gameObject.transform.position) < 12.5f)
+                _spineAnimator.bondDamping = 3f;
+                _spineAnimator.angularBondDamping = 2.5f;
+                if (Vector3.Distance(gameObject.transform.position, _pursue.target.gameObject.transform.position) < 10f && canEat)
                 {
-                    _hunger = 100;
-                    _pursue.target.gameObject.GetComponent<FishAI>().DieStart();
+                    switch (isOmnicidal)
+                    {
+                        case true:
+                            _hunger = 59;
+                            break;
+                        default:
+                            _hunger = 100;
+                            break;
+                    }
+
+                    if (_pursue.target.gameObject.GetComponent<FishAI>()!= null)
+                    {
+                        _pursue.target.gameObject.GetComponent<FishAI>().DieStart();
+                    }
+                    else  if (_pursue.target.gameObject.GetComponent<SchoolingFishAI>()!= null)
+                    {
+                        _pursue.target.gameObject.GetComponent<SchoolingFishAI>().DieStart();
+                    }
+                    else
+                    {
+                        _pursue.target.GetComponent<LeaderAI>().DieStart();
+                    }
+                        
                 }
                 break;
         }
@@ -88,15 +115,20 @@ public class RedFishAI : MonoBehaviour
 
     private int Rng()
     {
-        int randomNum = Random.Range(0, _globalVariables.schoolFishLeaderCount);
+        int randomNum = Random.Range(0, _globalVariables.preyFishCount);
         return randomNum;
     }
     IEnumerator Hunger()
     {
         while (true)
         {
-            _hunger--;
-            yield return new WaitForSecondsRealtime(0.5f);
+            if (canStarve)
+            {
+                _hunger--;
+                yield return new WaitForSecondsRealtime(1f);
+                Debug.Log("I am starving " + _hunger);
+            }
+
             switch (_hunger)
             {
                 case 0:
@@ -110,6 +142,8 @@ public class RedFishAI : MonoBehaviour
                     states = AIStates.Wandering;
                     break;
             }
+
+            yield return null;
         }
     }
 
