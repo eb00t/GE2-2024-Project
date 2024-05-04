@@ -66,6 +66,7 @@ public class LeaderAI : MonoBehaviour
         changeStateTimer -= Time.deltaTime;
         if (changeStateTimer <= 0 && !_fleeing)
         {
+            changeStateTimer = Random.Range(15, 76);
             _behaviourNumber = Random.Range(0, 1);
             switch (_behaviourNumber)
             {
@@ -82,6 +83,7 @@ public class LeaderAI : MonoBehaviour
         switch (states)
         {
             case AIStates.Wandering:
+                _pursue.enabled = false;
                 _noiseWander.enabled = true;
                 _boid.maxSpeed = 5;
                 _spineAnimator.bondDamping = 5;
@@ -89,6 +91,7 @@ public class LeaderAI : MonoBehaviour
                 _flee.enabled = false;
                 break;
             case AIStates.Fleeing:
+                _pursue.enabled = false;
                 _noiseWander.enabled = false;
                 _boid.maxSpeed = 8;
                 _spineAnimator.bondDamping = 7.5f;
@@ -101,6 +104,7 @@ public class LeaderAI : MonoBehaviour
                     states = AIStates.Wandering;
                 }
                 _noiseWander.enabled = false;
+                _pursue.enabled = true;
                 _boid.maxSpeed = 5;
                 _spineAnimator.bondDamping = 5;
                 _spineAnimator.angularBondDamping = 3;
@@ -121,7 +125,7 @@ public class LeaderAI : MonoBehaviour
         states = AIStates.Fleeing;
         _fleeing = true;
         _flee.targetGameObject = target;
-        yield return new WaitForSecondsRealtime(10f);
+        yield return new WaitForSecondsRealtime(4f);
         _fleeing = false;
         states = AIStates.Wandering;
     }

@@ -102,7 +102,7 @@ IEnumerator RunAway(GameObject target)
     {
         states = AIStates.Fleeing;
         _flee.targetGameObject = target;
-        yield return new WaitForSecondsRealtime(10f);
+        yield return new WaitForSecondsRealtime(4f);
         states = AIStates.Following;
         _offsetPursue.leader = _globalVariables.allSchoolingFishLeaders[Rng()].GetComponent<Boid>();
     }

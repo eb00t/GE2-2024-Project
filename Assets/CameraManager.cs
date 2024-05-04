@@ -12,6 +12,7 @@ public class CameraManager : MonoBehaviour
     private int _camNumber;
     private bool _preyCam;
     private GameObject _backToRobotButton;
+
     void Start()
     {
         fishCam = GameObject.FindWithTag("FishCam").GetComponent<CinemachineVirtualCamera>();
@@ -20,7 +21,7 @@ public class CameraManager : MonoBehaviour
         _globalVariables = GameObject.FindWithTag("GlobalVariables").GetComponent<GlobalVariables>();
         _backToRobotButton = GameObject.Find("BackToRobotButton");
         _backToRobotButton.SetActive(false);
-        
+
         fishCam.Priority = 1;
         _fishCamLayer.SetActive(false);
         _preyCam = false;
@@ -29,20 +30,12 @@ public class CameraManager : MonoBehaviour
 
     public void PredatorCamActivate()
     {
-        _preyCam = false;
-        _player.GetComponent<PlayerController>().controlsEnabled = false;
-        fishCam.Priority = 12;
-        _camNumber = RngFish("pred");
-        _backToRobotButton.SetActive(true);
+        StartCoroutine(SwitchCamPred());
     }
 
     public void PreyCamActivate()
     {
-        _preyCam = true;
-        _player.GetComponent<PlayerController>().controlsEnabled = false;
-        fishCam.Priority = 12;
-        _camNumber = RngFish("prey");
-        _backToRobotButton.SetActive(true);
+        StartCoroutine(SwitchCamPrey());
     }
 
     void Update()
@@ -64,6 +57,7 @@ public class CameraManager : MonoBehaviour
                     {
                         _camNumber++;
                     }
+
                     break;
                 case true:
                     if (_camNumber > _globalVariables.allPreyFish.Count)
@@ -78,6 +72,7 @@ public class CameraManager : MonoBehaviour
                     {
                         _camNumber++;
                     }
+
                     break;
             }
         }
@@ -130,15 +125,14 @@ public class CameraManager : MonoBehaviour
                 fishCam.LookAt = fishCam.Follow.transform;
                 break;
         }
+
         Debug.Log(_camNumber);
     }
-    
+
 
     public void DeactivateFishCam()
     {
-        _player.GetComponent<PlayerController>().controlsEnabled = true;
-        fishCam.Priority = 1;
-        _backToRobotButton.SetActive(false);
+        StartCoroutine(SwitchCamRobot());
     }
 
     private int RngFish(string predOrPrey)
@@ -147,12 +141,41 @@ public class CameraManager : MonoBehaviour
         switch (predOrPrey)
         {
             case "pred":
-              genNum = Random.Range(0, _globalVariables.allPredatorFish.Count);
+                genNum = Random.Range(0, _globalVariables.allPredatorFish.Count);
                 break;
             case "prey":
                 genNum = Random.Range(0, _globalVariables.allPreyFish.Count);
                 break;
         }
+
         return genNum;
+    }
+
+    IEnumerator SwitchCamPred()
+    {
+        yield return new WaitForSecondsRealtime(0.5f);
+        _preyCam = false;
+        _player.GetComponent<PlayerController>().controlsEnabled = false;
+        fishCam.Priority = 12;
+        _camNumber = RngFish("pred");
+        _backToRobotButton.SetActive(true);
+    }
+
+    IEnumerator SwitchCamPrey()
+    {
+        yield return new WaitForSecondsRealtime(0.5f);
+        _preyCam = true;
+        _player.GetComponent<PlayerController>().controlsEnabled = false;
+        fishCam.Priority = 12;
+        _camNumber = RngFish("prey");
+        _backToRobotButton.SetActive(true);
+    }
+
+    IEnumerator SwitchCamRobot()
+    {
+        yield return new WaitForSecondsRealtime(0.5f);
+        _player.GetComponent<PlayerController>().controlsEnabled = true;
+        fishCam.Priority = 1;
+        _backToRobotButton.SetActive(false);
     }
 }
