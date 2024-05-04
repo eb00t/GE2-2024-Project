@@ -10,6 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 7777327645768261241}
   - component: {fileID: 1773089056595789543}
+  - component: {fileID: 3543733731376116335}
+  - component: {fileID: 8129907597638503094}
+  - component: {fileID: 1365841602730628296}
   m_Layer: 0
   m_Name: Spawner
   m_TagString: BugSpawner
@@ -44,5 +47,70 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 398806cde4a1c7b40b0c8b6f35b0bf2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentBugs: 0
   toSpawn: 0
+--- !u!114 &3543733731376116335
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7863852517467255079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d19fb33abe5a4d9691ec0a89b7427d20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  force: {x: 0, y: 0, z: 0}
+  acceleration: {x: 0, y: 0, z: 0}
+  velocity: {x: 0, y: 0, z: 0}
+  mass: 1
+  damping: 0.01
+  banking: 0.1
+  maxSpeed: 5
+  maxForce: 10
+--- !u!114 &8129907597638503094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7863852517467255079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e967b7a960b3aa4caf6894ba510295e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weight: 1
+  force: {x: 0, y: 0, z: 0}
+  boid: {fileID: 0}
+  frequency: 0.3
+  radius: 10
+  theta: 0
+  amplitude: 80
+  distance: 5
+  axis: 0
+--- !u!114 &1365841602730628296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7863852517467255079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c6b61b47cbc7af408d55f87f94934de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weight: 1
+  force: {x: 0, y: 0, z: 0}
+  boid: {fileID: 0}
+  scale: 4
+  forwardFeelerDepth: 30
+  sideFeelerDepth: 15
+  frontFeelerUpdatesPerSecond: 10
+  sideFeelerUpdatesPerSecond: 5
+  feelerRadius: 2
+  forceType: 0
+  mask:
+    serializedVersion: 2
+    m_Bits: 4294967295

@@ -16,6 +16,9 @@ public class SchoolingFishAI : MonoBehaviour
     private GameObject _fishRoot;
     private Animator _animator; //THIS IS JUST FOR SHRINKING, I AM SO TIRED OF THE EDITOR SOFT CRASHING
     private GlobalVariables _globalVariables;
+    private CameraManager _cameraManager;
+    public bool isFearless;
+    
     public List<GameObject> evilFish;
 
     public enum AIStates
@@ -50,6 +53,8 @@ public class SchoolingFishAI : MonoBehaviour
         {
             allSegments.Add(tf.gameObject);
         }
+
+        _cameraManager = GameObject.FindWithTag("CameraManager").GetComponent<CameraManager>();
     }
 
     void Update()
@@ -106,21 +111,29 @@ IEnumerator RunAway(GameObject target)
     {
         while (true)
         {
-            evilFish.Clear();
-            foreach (GameObject go in GameObject.FindGameObjectsWithTag("PredatorFish"))
+            switch (isFearless)
             {
-                evilFish.Add(go);
-            }
-
-            foreach (GameObject go in evilFish)
-            {
-                Debug.Log("Checking for bad guys.");
-                if (Vector3.Distance(go.transform.position, gameObject.transform.position) < 35f)
+                case false:
                 {
-                    StartCoroutine(RunAway(go));
+                    evilFish.Clear();
+                    foreach (GameObject go in GameObject.FindGameObjectsWithTag("PredatorFish"))
+                    {
+                        evilFish.Add(go);
+                    }
+
+                    foreach (GameObject go in evilFish)
+                    {
+                        Debug.Log("Checking for bad guys.");
+                        if (Vector3.Distance(go.transform.position, gameObject.transform.position) < 35f)
+                        {
+                            StartCoroutine(RunAway(go));
+                        }
+                    }
+
+                    yield return new WaitForSecondsRealtime(1f);
+                    break;
                 }
             }
-            yield return new WaitForSecondsRealtime(1f);
         }
     }
 
@@ -150,9 +163,13 @@ IEnumerator RunAway(GameObject target)
 
     public void DestroyMeCompletely()
     {
-        gameObject.tag = null;
-        _globalVariables.allOrangeFish.Remove(gameObject);
+        gameObject.tag = "Untagged";
+        _globalVariables.allSchoolingFish.Remove(gameObject);
         _globalVariables.allPreyFish.Remove(gameObject);
+        if (_cameraManager.fishCam.Follow == gameObject.transform && _cameraManager.fishCam.Priority == 12)
+        {
+            _cameraManager.PreyCamActivate();
+        }
         Destroy(gameObject.transform.root.gameObject);
     }
 }

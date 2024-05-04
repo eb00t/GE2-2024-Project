@@ -12,7 +12,8 @@ public class CountSlider : MonoBehaviour
         TotalBugs,
         TotalOrangeFish,
         TotalSchoolFish,
-        TotalPredatorFish
+        TotalPredatorFish,
+        TotalSchoolFishLeaders
     }
 
     public ShowWhat WhatToShow;
@@ -34,6 +35,9 @@ public class CountSlider : MonoBehaviour
             case ShowWhat.TotalSchoolFish:
                 _slider.value = _globalVariables.totalSchoolFishAllowed;
                 break;
+            case ShowWhat.TotalSchoolFishLeaders:
+                _slider.value = _globalVariables.totalSchoolFishLeadersAllowed;
+                break;
         }
        
     }
@@ -53,7 +57,10 @@ public class CountSlider : MonoBehaviour
                 _globalVariables.totalPredatorFishAllowed = (int)_slider.value;
                 break;
             case ShowWhat.TotalSchoolFish:
-                _globalVariables.totalOrangeFishAllowed = (int)_slider.value;
+                _globalVariables.totalSchoolFishAllowed = (int)_slider.value;
+                break;
+            case ShowWhat.TotalSchoolFishLeaders:
+                _globalVariables.totalSchoolFishLeadersAllowed = (int)_slider.value;
                 break;
         }
         

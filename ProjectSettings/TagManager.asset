@@ -19,6 +19,8 @@ TagManager:
   - OrangeFish
   - SchoolFish
   - SchoolFishLeader
+  - FishCam
+  - PlayerCam
   layers:
   - Default
   - TransparentFX

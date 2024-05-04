@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     private CapsuleCollider _capsuleCollider;
     private LayerMask _groundLayer;
     private GameObject _playerModel;
+    private GameObject _playerModelBody;
    
     private CinemachineVirtualCamera _vcam;
     private CinemachineInputProvider _cameraInputProvider;
@@ -34,6 +35,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         _playerModel = GameObject.Find("LittleBot");
+        _playerModelBody = _playerModel.transform.Find("Body").gameObject;
         controller = GetComponent<CharacterController>();
         _playerInputManager = PlayerInputManager.Instance;
         _groundLayer = LayerMask.NameToLayer("Ground");
@@ -57,10 +59,11 @@ public class PlayerController : MonoBehaviour
         if (controlsEnabled)
         {
             _cameraInputProvider.enabled = true;
-            Vector3 playerModelRotation = new Vector3(0, 0, _cameraTransform.rotation.y);
+            Vector3 playerModelRotation = new Vector3(0, Camera.main.transform.rotation.y, 0);
             
             //Rotate the player model
-            _playerModel.transform.rotation = Quaternion.LookRotation(playerModelRotation);
+            _playerModel.transform.rotation = Quaternion.Euler( 0, _cameraTransform.eulerAngles.y, 0);
+            _playerModelBody.transform.rotation = Quaternion.Euler( _cameraTransform.eulerAngles.x, _cameraTransform.eulerAngles.y, 0);
             
             float radius = _capsuleCollider.radius * 0.9f;
 

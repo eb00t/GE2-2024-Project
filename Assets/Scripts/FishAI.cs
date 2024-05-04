@@ -15,6 +15,8 @@ public class FishAI : MonoBehaviour
     private GameObject _fishRoot;
     private Animator _animator;//THIS IS JUST FOR SHRINKING, I AM SO TIRED OF THE EDITOR SOFT CRASHING
     private GlobalVariables _globalVariables;
+    private CameraManager _cameraManager;
+    public bool isFearless;
 
     public List<GameObject> evilFish;
 
@@ -37,6 +39,7 @@ public class FishAI : MonoBehaviour
         _spineAnimator = GetComponent<SpineAnimator>();
         _harmonic = GetComponent<Harmonic>();
         _globalVariables = GameObject.FindWithTag("GlobalVariables").GetComponent<GlobalVariables>();
+        _cameraManager = GameObject.FindWithTag("CameraManager").GetComponent<CameraManager>();
 
         evilFish = new List<GameObject>();
         _flee.enabled = false;
@@ -84,22 +87,29 @@ public class FishAI : MonoBehaviour
     {
         while (true)
         {
-            evilFish.Clear();
-            foreach (GameObject go in GameObject.FindGameObjectsWithTag("PredatorFish"))
+            switch (isFearless)
             {
-                evilFish.Add(go);
-            }
-
-            foreach (GameObject go in evilFish)
-            {
-                Debug.Log("Checking for bad guys.");
-                if (Vector3.Distance(go.transform.position, gameObject.transform.position) < 50f)
+                case false:
                 {
-                    StartCoroutine(RunAway(go));
+                    evilFish.Clear();
+                    foreach (GameObject go in GameObject.FindGameObjectsWithTag("PredatorFish"))
+                    {
+                        evilFish.Add(go);
+                    }
+
+                    foreach (GameObject go in evilFish)
+                    {
+                        Debug.Log("Checking for bad guys.");
+                        if (Vector3.Distance(go.transform.position, gameObject.transform.position) < 50f)
+                        {
+                            StartCoroutine(RunAway(go));
+                        }
+                    }
+
+                    yield return new WaitForSecondsRealtime(1f);
+                    break;
                 }
             }
-
-            yield return new WaitForSecondsRealtime(1f);
         }
     }
 
@@ -129,9 +139,13 @@ public class FishAI : MonoBehaviour
 
     public void DestroyMeCompletely()
     {
-        gameObject.tag = null;
+        gameObject.tag = "Untagged";
         _globalVariables.allOrangeFish.Remove(gameObject);
         _globalVariables.allPreyFish.Remove(gameObject);
+        if (_cameraManager.fishCam.Follow == gameObject.transform && _cameraManager.fishCam.Priority == 12)
+        {
+            _cameraManager.PreyCamActivate();
+        }
         Destroy(gameObject.transform.root.gameObject);
     }
 }

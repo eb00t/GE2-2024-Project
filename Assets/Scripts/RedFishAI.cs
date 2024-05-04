@@ -10,6 +10,7 @@ public class RedFishAI : MonoBehaviour
     private ObstacleAvoidance _obstacleAvoidance;
     private NoiseWander _noiseWander;
     private Harmonic _harmonic;
+    private CameraManager _cameraManager;
 
     private GlobalVariables _globalVariables;
     private GameObject _fishRoot;
@@ -54,6 +55,7 @@ public class RedFishAI : MonoBehaviour
             }
         }
         _animator = GetComponent<Animator>();
+        _cameraManager = GameObject.FindWithTag("CameraManager").GetComponent<CameraManager>();
     }
 
     void Update()
@@ -135,9 +137,13 @@ public class RedFishAI : MonoBehaviour
 
     public void DestroyMeCompletely()
     {
-        gameObject.tag = null;
+        gameObject.tag = "Untagged";
         _globalVariables.allOrangeFish.Remove(gameObject);
         _globalVariables.allPreyFish.Remove(gameObject);
+        if (_cameraManager.fishCam.Follow == gameObject.transform && _cameraManager.fishCam.Priority == 12)
+        {
+            _cameraManager.PredatorCamActivate();
+        }
         Destroy(gameObject.transform.root.gameObject);
     }
     
