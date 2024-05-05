@@ -13,6 +13,7 @@ public class BugAI : MonoBehaviour
     private Pursue _pursue;
     public float changeStateTimer;
     private int _behaviourNumber = 2;
+    private Animator _animator;
     private List<GameObject> _lights;
     private List<GameObject> _glass;
     private int _randomLight, _randomGlass;
@@ -34,7 +35,8 @@ public class BugAI : MonoBehaviour
         CrashingIntoWindow
     }
     public WhatAmIDoing doingWhat;
-    
+    private static readonly int Shrink = Animator.StringToHash("Shrink");
+
     void Start()
     {
         _player = GameObject.Find("Player");
@@ -72,6 +74,8 @@ public class BugAI : MonoBehaviour
                 _randomGlass = Random.Range(0, _glass.Count);
                 break;
         }
+
+        _animator = GetComponentInChildren<Animator>();
     }
     
     void FixedUpdate()
@@ -246,9 +250,14 @@ public class BugAI : MonoBehaviour
     }
 
     private IEnumerator DiePart2()
-    {
+    {  
         yield return new WaitForSecondsRealtime(Random.Range(1, 4));
-        Debug.Log("Bug down!!!!!1");
+        //Debug.Log("Bug down!!!!!1");
+        _animator.SetBool(Shrink, true);
+    }
+
+    public void DestroyMeCompletely()
+    {
         Destroy(gameObject);
     }
 }
