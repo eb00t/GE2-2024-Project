@@ -705,6 +705,7 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 54b917655779b5d44b500cdd82496276, type: 2}
+  - {fileID: 2100000, guid: 08721aac7d47d50418886f298ac87d2d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1864,6 +1865,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   allSegments: []
+  isFearless: 0
   evilFish: []
   states: 0
 --- !u!114 &2538795549261307230
@@ -2079,6 +2081,7 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 54b917655779b5d44b500cdd82496276, type: 2}
+  - {fileID: 2100000, guid: 08721aac7d47d50418886f298ac87d2d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

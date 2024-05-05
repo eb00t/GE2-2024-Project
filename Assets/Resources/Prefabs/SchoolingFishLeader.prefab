@@ -976,6 +976,7 @@ MonoBehaviour:
   allSegments: []
   isFearless: 0
   evilFish: []
+  changeStateTimer: 0
   states: 0
 --- !u!65 &5292493462593344881
 BoxCollider:
@@ -1512,7 +1513,7 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 25d191b85f0ffe847883d0c8fe067171, type: 2}
-  - {fileID: 2100000, guid: 25d191b85f0ffe847883d0c8fe067171, type: 2}
+  - {fileID: 2100000, guid: 08721aac7d47d50418886f298ac87d2d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

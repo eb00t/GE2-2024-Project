@@ -121,6 +121,7 @@ public class PlayerController : MonoBehaviour
                 objRb.isKinematic = true;
                 objToPickUp.transform.SetParent(_hand.transform);
                 objToPickUp.transform.position = _hand.transform.position;
+                objToPickUp.transform.rotation = _hand.transform.rotation;
                 _holdingSomething = true;
                 StartCoroutine(PickUpCd());
             }
@@ -191,7 +192,7 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator PickUpCd()
     {
-        yield return new WaitForSecondsRealtime(0.5f);
+        yield return new WaitForSecondsRealtime(0.1f);
         _canThrow = true;
     }
     }
