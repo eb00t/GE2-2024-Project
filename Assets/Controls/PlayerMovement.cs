@@ -312,6 +312,17 @@ public partial class @PlayerMovement: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""9728460d-0392-448e-9b01-82bf2427f039"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Drop"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""063f4e83-ac2c-4d85-a462-a2be5ddd85bf"",
                     ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
