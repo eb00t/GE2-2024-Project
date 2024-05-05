@@ -10,30 +10,36 @@ public class BugAI : MonoBehaviour
     private Seek _seek;
     private ObstacleAvoidance _obstacleAvoidance;
     private NoiseWander _noiseWander;
+    private Pursue _pursue;
     public float changeStateTimer;
     private int _behaviourNumber = 2;
     private List<GameObject> _lights;
     private List<GameObject> _glass;
-    private List<GameObject> _flats;
-    private int _randomLight, _randomGlass, _randomFlat;
+    private int _randomLight, _randomGlass;
     private Light _bugLight;
-    private bool _landed;
+    //private bool _landed;
     private WingsAnim _wingsAnim;
     private Vector3 _trueFlatPos;
     public bool canDieFromLights = true;
     private int _willSuicide;
     private AudioSource _audioSource;
+    private GameObject _player;
+    private Boid _playerBoid;
     public enum WhatAmIDoing
     {
         Wandering,
         SeekLight,
-        Landed,
+        //Landed,
+        FollowPlayer,
         CrashingIntoWindow
     }
     public WhatAmIDoing doingWhat;
     
     void Start()
     {
+        _player = GameObject.Find("Player");
+        _playerBoid = _player.GetComponentInChildren<Boid>();
+        _pursue = GetComponent<Pursue>();
         changeStateTimer = Random.Range(15, 76);
         _boid = GetComponent<Boid>();
         _seek = GetComponent<Seek>();
@@ -41,7 +47,6 @@ public class BugAI : MonoBehaviour
         _obstacleAvoidance = GetComponent<ObstacleAvoidance>();
         _lights = new List<GameObject>();
         _glass = new List<GameObject>();
-        _flats = new List<GameObject>();
         foreach (GameObject go in GameObject.FindGameObjectsWithTag("Light"))
         {
             _lights.Add(go);
@@ -50,22 +55,15 @@ public class BugAI : MonoBehaviour
         {
             _glass.Add(go);
         }
-        foreach (GameObject go in GameObject.FindGameObjectsWithTag("FlatSurface"))
-        {
-            _flats.Add(go);
-        }
         _behaviourNumber = Random.Range(0, 4);
         _bugLight = transform.GetChild(1).GetComponent<Light>();
-        _landed = false;
+        //_landed = false;
         _wingsAnim = GetComponentInChildren<WingsAnim>();
         _wingsAnim.enabled = true;
         StartCoroutine(DieTimer());
         _audioSource = GetComponent<AudioSource>();
         switch (_behaviourNumber) //only randomises what it needs to
         {
-            case 1: //Landing
-                _randomFlat = Random.Range(0, _flats.Count);
-                break;
             case 2: //Seek Light
                 _randomLight = Random.Range(0, _lights.Count);
                 _willSuicide = Random.Range(0, 11);
@@ -85,9 +83,6 @@ public class BugAI : MonoBehaviour
             _behaviourNumber = Random.Range(0, 4);
             switch (_behaviourNumber) //only randomises what it needs to
             {
-                case 1: //Landing
-                    _randomFlat = Random.Range(0, _flats.Count);
-                    break;
                 case 2: //Seek Light
                     _randomLight = Random.Range(0, _lights.Count);
                     _willSuicide = Random.Range(0, 11);
@@ -96,21 +91,8 @@ public class BugAI : MonoBehaviour
                     _randomGlass = Random.Range(0, _glass.Count);
                     break;
             }
-            
-          
-            GameObject flatSurface = _flats[_randomFlat];
-            Vector3 flatMin = flatSurface.GetComponent<MeshFilter>().mesh.bounds.min;
-            Vector3 flatMax = flatSurface.GetComponent<MeshFilter>().mesh.bounds.min;
-            _trueFlatPos = flatSurface.transform.position -
-                           new Vector3(
-                               Random.Range(flatMin.x * flatSurface.transform.localScale.x,
-                                   flatMax.x * flatSurface.transform.localScale.x),
-                               flatSurface.transform.localScale.y / 2,
-                               (Random.Range(flatMin.z * flatSurface.transform.localScale.z,
-                                   flatMax.z * flatSurface.transform.localScale.z)));
-            Debug.Log(_trueFlatPos);
             changeStateTimer = Random.Range(15, 76);
-            _landed = false;
+           // _landed = false;
         }
 
         switch (_behaviourNumber)
@@ -119,7 +101,7 @@ public class BugAI : MonoBehaviour
                 doingWhat = WhatAmIDoing.Wandering;
                 break;
             case 1: //Landed
-                doingWhat = WhatAmIDoing.Landed;
+                doingWhat = WhatAmIDoing.FollowPlayer;
                 break;
             case 2: //Seek Light
                 doingWhat = WhatAmIDoing.SeekLight;
@@ -133,6 +115,7 @@ public class BugAI : MonoBehaviour
         switch (doingWhat)
         {
             case WhatAmIDoing.SeekLight:
+                _pursue.enabled = false;
                 _boid.enabled = true;
                 _wingsAnim.enabled = true;
                 switch (_willSuicide)
@@ -157,6 +140,7 @@ public class BugAI : MonoBehaviour
                 }
                 break;
             case WhatAmIDoing.Wandering:
+                _pursue.enabled = false;
                 _wingsAnim.enabled = true;
                 _boid.enabled = true;
                 _obstacleAvoidance.enabled = true;
@@ -166,7 +150,18 @@ public class BugAI : MonoBehaviour
                 _seek.enabled = false;
                 _noiseWander.enabled = true;
                 break;
-            case WhatAmIDoing.Landed:
+            case WhatAmIDoing.FollowPlayer:
+                _pursue.enabled = true;
+                _wingsAnim.enabled = true;
+                _boid.enabled = true;
+                _obstacleAvoidance.enabled = true;
+                _obstacleAvoidance.forwardFeelerDepth = 3;
+                _obstacleAvoidance.sideFeelerDepth = 1;
+                _obstacleAvoidance.scale = 1;
+                _seek.enabled = false;
+                _pursue.target = _playerBoid;
+                break;
+            /*case WhatAmIDoing.Landed: //This was buggy as hell and also sucked :<
                 _noiseWander.enabled = false;
                 _seek.enabled = true;
                 _seek.targetGameObject = _flats[_randomFlat];
@@ -178,8 +173,8 @@ public class BugAI : MonoBehaviour
                      gameObject.transform.localScale.y / 2),
                     Random.Range(transformPosition.z - _seek.transform.localScale.z / 2,
                         transformPosition.z + _seek.transform.localScale.z / 2));*/
-                _seek.target = new Vector3(transformPosition.x,
-                    transformPosition.y + _seek.targetGameObject.transform.position.y + transform.localScale.y / 2, transformPosition.z);
+                /*_seek.target = new Vector3(transformPosition.x,
+                    transformPosition.y + _seek.targetGameObject.transform.position.y + transform.localScale.y / 2 + 0.5f, transformPosition.z);
                 
                 if (Vector3.Distance(position,_seek.target) <= 3)
                 {
@@ -197,7 +192,7 @@ public class BugAI : MonoBehaviour
                     transformRotation.x = 0;
                     transformRotation.z = 0;
                     transform.rotation = transformRotation;
-                    position.y = transformPosition.y / 2;
+                    position.y = transformPosition.y / 2 - transform.localScale.y;
                 }
                 else
                 {
@@ -216,8 +211,9 @@ public class BugAI : MonoBehaviour
                         break;
                 }
                 
-                break;
+                break;*/
             case WhatAmIDoing.CrashingIntoWindow:
+                _pursue.enabled = false;
                 _wingsAnim.enabled = true;
                 _boid.enabled = true;
                 _obstacleAvoidance.enabled = true;

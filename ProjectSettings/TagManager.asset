@@ -22,6 +22,7 @@ TagManager:
   - FishCam
   - PlayerCam
   - CameraManager
+  - LandingPoint
   layers:
   - Default
   - TransparentFX
