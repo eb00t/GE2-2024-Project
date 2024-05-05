@@ -172,8 +172,7 @@ public class RedFishAI : MonoBehaviour
     public void DestroyMeCompletely()
     {
         gameObject.tag = "Untagged";
-        _globalVariables.allOrangeFish.Remove(gameObject);
-        _globalVariables.allPreyFish.Remove(gameObject);
+        _globalVariables.allPredatorFish.Remove(gameObject);
         if (_cameraManager.fishCam.Follow == gameObject.transform && _cameraManager.fishCam.Priority == 12)
         {
             _cameraManager.PredatorCamActivate();

@@ -414,8 +414,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c23d3139b64da7f469c9ed73e6afef31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hunger: 100
   _allSegments: []
   canEat: 1
+  canStarve: 1
+  isOmnicidal: 0
   states: 0
 --- !u!114 &7791360748246488442
 MonoBehaviour:

@@ -24,6 +24,8 @@ public class PlayerController : MonoBehaviour
     private LayerMask _playerMask;
     private GameObject _hand;
     private bool _holdingSomething = false;
+    private bool _canThrow;
+    public GameObject objToPickUp;
 
     [Header("Player Attributes")] 
     [SerializeField] private float playerSpeed = 2.0f;
@@ -111,6 +113,51 @@ public class PlayerController : MonoBehaviour
             _cameraInputProvider.enabled = false;
         }
 
+        if (_playerInputManager.PickUp())
+        {
+            Rigidbody objRb = objToPickUp.GetComponent<Rigidbody>();
+            if (!_holdingSomething)
+            {
+                objRb.isKinematic = true;
+                objToPickUp.transform.SetParent(_hand.transform);
+                objToPickUp.transform.position = _hand.transform.position;
+                _holdingSomething = true;
+                StartCoroutine(PickUpCd());
+            }
+        }
+
+        if (_playerInputManager.Throw())
+        {
+            Rigidbody objRb = objToPickUp.GetComponent<Rigidbody>();
+            if (_holdingSomething && _canThrow)
+            {
+                objRb.isKinematic = false;
+                objToPickUp.transform.SetParent(null);
+                objRb.AddForce(_hand.transform.forward * 20, ForceMode.Impulse);
+                objToPickUp = null;
+                _holdingSomething = false;
+                _canThrow = false;
+            }
+        }
+        
+        if (_playerInputManager.Drop())
+        {
+            Rigidbody objRb = objToPickUp.GetComponent<Rigidbody>();
+            if (_holdingSomething && _canThrow)
+            {
+                objRb.isKinematic = false;
+                objToPickUp.transform.SetParent(null);
+                objRb.AddForce(_hand.transform.forward, ForceMode.Impulse);
+                objToPickUp = null;
+                _holdingSomething = false;
+                _canThrow = false;
+            }
+        }
+
+        if (_holdingSomething)
+        {
+            if (objToPickUp != null) objToPickUp.transform.position = _hand.transform.position;
+        }
         /* if (_playerInputManager.PickUp())
          {
              Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
@@ -139,6 +186,12 @@ public class PlayerController : MonoBehaviour
              else
              {
                  Debug.Log("Nothing.");
-             } THIS WOULD NOT WORK AT ALL */ 
-        }
+             } THIS WOULD NOT WORK AT ALL */
+    }
+
+    IEnumerator PickUpCd()
+    {
+        yield return new WaitForSecondsRealtime(0.5f);
+        _canThrow = true;
+    }
     }

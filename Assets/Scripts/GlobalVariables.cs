@@ -37,6 +37,7 @@ public class GlobalVariables : MonoBehaviour
     private int _totalFishAllowed;
 
     public List<GameObject> allFish;
+    public List<GameObject> allPickups;
     public float counterUpdateTime = 1f;
 
     void Start()
@@ -48,7 +49,13 @@ public class GlobalVariables : MonoBehaviour
         allBugs = new List<GameObject>();
         allPreyFish = new List<GameObject>();
         allPredatorFish = new List<GameObject>();
+        allPickups = new List<GameObject>();
+        foreach (GameObject go in GameObject.FindGameObjectsWithTag("Pickup"))
+        {
+          allPickups.Add(go);  
+        }
         canBugsDieFromLights = true;
+        
     }
 
     void Update()
@@ -278,7 +285,7 @@ public class GlobalVariables : MonoBehaviour
         while (true)
         {
             //Fear
-            foreach (GameObject go in allPreyFish) //DOESN'T WORK; NOT FIXING; NOT WORTH IT.
+            /*foreach (GameObject go in allPreyFish) //DOESN'T WORK; NOT FIXING; NOT WORTH IT.
             {
                 if (go.GetComponent<FishAI>() != null)
                 {
@@ -293,7 +300,7 @@ public class GlobalVariables : MonoBehaviour
                     go.GetComponent<LeaderAI>().isFearless = fishAreFearful;
                 }
             }
-            yield return new WaitForSecondsRealtime(0.5f);
+            yield return new WaitForSecondsRealtime(0.5f);*/
                 
             //Bugs die to light
             foreach (GameObject go in allBugs)

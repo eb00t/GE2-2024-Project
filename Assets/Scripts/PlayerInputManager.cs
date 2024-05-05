@@ -64,4 +64,14 @@ public class PlayerInputManager : MonoBehaviour
      {
          return _playerMovement.Player.PickUp.triggered;
      }
+     
+     public bool Drop()
+     {
+         return _playerMovement.Player.Drop.triggered;
+     }
+     
+     public bool Throw()
+     {
+         return _playerMovement.Player.Throw.triggered;
+     }
 }
