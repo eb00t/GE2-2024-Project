@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class OpenClose : MonoBehaviour
 {
     private Animator _animator;
-    private bool _openMe;
+    private bool _openMe = false;
     private static readonly int Open = Animator.StringToHash("Open");
     private Button _button;
 
