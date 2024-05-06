@@ -16,14 +16,14 @@ public class RandomText : MonoBehaviour
         _messages = new List<string>()
         {
             "X_X",
-            "H\u2610LP",
-            "\u26100NE",
-            "L0\u2610T",
-            "ST\u2610CK",
-            "0HN\u2610",
-            "AL0\u2610E",
+            "H_LP",
+            "_0NE",
+            "L0_T",
+            "ST_CK",
+            "0H-N_",
+            "AL0_E",
             "...",
-            "0000"
+            "0000",
         };
         _message = Random.Range(0, _messages.Count);
         switch (_message)
