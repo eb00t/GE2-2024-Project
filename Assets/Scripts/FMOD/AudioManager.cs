@@ -1,16 +1,19 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using FMOD.Studio;
 using FMODUnity;
 using UnityEngine;
+using STOP_MODE = FMOD.Studio.STOP_MODE;
 
 public class AudioManager : MonoBehaviour
 {
-    public static AudioManager Instance {get; private set;}
-    
+    public static AudioManager Instance { get; private set; }
+
     private List<EventInstance> _eventInstances;
     private List<StudioEventEmitter> _eventEmitters;
     private EventInstance _ambienceEventInstance;
+
     void Awake()
     {
         if (Instance != null)
@@ -21,8 +24,14 @@ public class AudioManager : MonoBehaviour
         Instance = this;
         _eventInstances = new List<EventInstance>();
         _eventEmitters = new List<StudioEventEmitter>();
-    } 
+    }
+
+    private void Start()
+    {
+        InitialiseAmbience(FMODEvents.Instance.Ambience);
+    }
     
+
     //GENERAL
     public void PlayOneShot(EventReference sound, Vector3 worldPos)
     {
@@ -48,4 +57,22 @@ public class AudioManager : MonoBehaviour
         _ambienceEventInstance.setParameterByName(parameterName, parameterValue);
     }
     
+    private void CleanUp()
+    {
+        foreach (EventInstance eventInstance in _eventInstances)
+        {
+            eventInstance.stop(STOP_MODE.IMMEDIATE);
+            eventInstance.release();
+        }  
+        
+        foreach (StudioEventEmitter studioEventEmitter in _eventEmitters)
+        {
+            studioEventEmitter.Stop();
+        }   
+    }
+
+    private void OnDestroy()
+    {
+        CleanUp();
+    }
 }
