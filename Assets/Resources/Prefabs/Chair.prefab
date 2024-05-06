@@ -533,7 +533,6 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 82168c6b0d9e25244b622bd8d2e2bc01, type: 2}
-  - {fileID: 2100000, guid: 08721aac7d47d50418886f298ac87d2d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1788,7 +1787,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!1 &7594526182995586931
 GameObject:
   m_ObjectHideFlags: 0
@@ -2279,7 +2278,6 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 82168c6b0d9e25244b622bd8d2e2bc01, type: 2}
-  - {fileID: 2100000, guid: 08721aac7d47d50418886f298ac87d2d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
