@@ -23,6 +23,7 @@ TagManager:
   - PlayerCam
   - CameraManager
   - LandingPoint
+  - InHand
   layers:
   - Default
   - TransparentFX

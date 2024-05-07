@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
+using FMOD.Studio;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -26,6 +27,8 @@ public class PlayerController : MonoBehaviour
     private bool _holdingSomething = false;
     private bool _canThrow;
     public GameObject objToPickUp;
+    private EventInstance _footsteps;
+    private Vector3 _oldPos, _newPos;
 
     [Header("Player Attributes")] 
     [SerializeField] private float playerSpeed = 2.0f;
@@ -33,6 +36,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float gravityValue = -9.81f;
     [SerializeField] private bool isDrone;
     [SerializeField] public bool controlsEnabled;
+    [SerializeField] public bool isMoving;
+    
 
     private void Start()
     {
@@ -53,6 +58,9 @@ public class PlayerController : MonoBehaviour
         _cameraInputProvider = _vcam.GetComponent<CinemachineInputProvider>();
         _cmPerlin = _vcam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
         _holdingSomething = false;
+        _footsteps = AudioManager.Instance.CreateEventInstance(FMODEvents.Instance.Footsteps);
+        _oldPos = transform.position;
+        _newPos = transform.position;
     }
 
     void FixedUpdate()
@@ -60,26 +68,31 @@ public class PlayerController : MonoBehaviour
 
         if (controlsEnabled)
         {
+            _newPos = transform.position;
             _cameraInputProvider.enabled = true;
-            Vector3 playerModelRotation = new Vector3(0, Camera.main.transform.rotation.y, 0);
             
             //Rotate the player model
             _playerModel.transform.rotation = Quaternion.Euler( 0, _cameraTransform.eulerAngles.y, 0);
             _playerModelBody.transform.rotation = Quaternion.Euler( _cameraTransform.eulerAngles.x, _cameraTransform.eulerAngles.y, 0);
             
-            float radius = _capsuleCollider.radius * 0.9f;
-
-            Vector3 pos = transform.position + Vector3.up * (radius * 0.9f);
-
-            groundedPlayer = Physics.CheckSphere(pos, radius, _groundLayer);
+            groundedPlayer = controller.isGrounded;
             if (groundedPlayer && playerVelocity.y < 0)
             {
-                playerVelocity.y = -0.1f;
+                playerVelocity.y = 0f;
             }
 
             Vector2 movement = _playerInputManager.GetPlayerMovement();
             Vector3 move = new Vector3(movement.x, 0f, movement.y);
             move = Vector3.Normalize(_cameraTransform.forward.normalized * move.z + _cameraTransform.right.normalized * move.x);
+            if (Math.Abs(_oldPos.x - _newPos.x) > .01 || Math.Abs(_oldPos.z - _newPos.z) > .01)
+            {
+                isMoving = true;
+            }
+            else
+            {
+                isMoving = false;
+            }
+            
             if (!isDrone)
             {
                 move.y = 0;
@@ -100,11 +113,14 @@ public class PlayerController : MonoBehaviour
             {
                 playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
             }
-
+            
             if (!isDrone)
-            {
+            { 
                 playerVelocity.y += gravityValue * Time.deltaTime; //DONT FORGET: TURNING THIS OFF CAN MAKE YOU FLOAT
             }
+            
+            move.y = playerVelocity.y;
+
 
             controller.Move(playerVelocity * Time.deltaTime);
         }
@@ -118,6 +134,11 @@ public class PlayerController : MonoBehaviour
             Rigidbody objRb = objToPickUp.GetComponent<Rigidbody>();
             if (!_holdingSomething)
             {
+                objToPickUp.tag = "InHand";
+                foreach (Transform child in objToPickUp.transform)
+                {
+                    child.tag = "InHand";
+                }
                 objRb.isKinematic = true;
                 objToPickUp.transform.SetParent(_hand.transform);
                 objToPickUp.transform.position = _hand.transform.position;
@@ -132,9 +153,15 @@ public class PlayerController : MonoBehaviour
             Rigidbody objRb = objToPickUp.GetComponent<Rigidbody>();
             if (_holdingSomething && _canThrow)
             {
+                AudioManager.Instance.PlayOneShot(FMODEvents.Instance.Throw, _hand.transform.position);
                 objRb.isKinematic = false;
                 objToPickUp.transform.SetParent(null);
                 objRb.AddForce(_hand.transform.forward * 20, ForceMode.Impulse);
+                objToPickUp.tag = "Pickup";
+                foreach (Transform child in objToPickUp.transform)
+                {
+                    child.tag = "Untagged";
+                }
                 objToPickUp = null;
                 _holdingSomething = false;
                 _canThrow = false;
@@ -149,6 +176,11 @@ public class PlayerController : MonoBehaviour
                 objRb.isKinematic = false;
                 objToPickUp.transform.SetParent(null);
                 objRb.AddForce(_hand.transform.forward, ForceMode.Impulse);
+                objToPickUp.tag = "Pickup";
+                foreach (Transform child in objToPickUp.transform)
+                {
+                    child.tag = "Untagged";
+                }
                 objToPickUp = null;
                 _holdingSomething = false;
                 _canThrow = false;
@@ -159,6 +191,8 @@ public class PlayerController : MonoBehaviour
         {
             if (objToPickUp != null) objToPickUp.transform.position = _hand.transform.position;
         }
+        UpdateSound();
+        _oldPos = _newPos;
         /* if (_playerInputManager.PickUp())
          {
              Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
@@ -195,4 +229,22 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSecondsRealtime(0.1f);
         _canThrow = true;
     }
+
+    private void UpdateSound()
+    {
+        if (isMoving && groundedPlayer)
+        {
+            PLAYBACK_STATE playbackState;
+            _footsteps.getPlaybackState(out playbackState);
+            if (playbackState.Equals(PLAYBACK_STATE.STOPPED))
+            {
+                _footsteps.start();
+            }
+        }
+        else
+        {
+            _footsteps.stop(STOP_MODE.ALLOWFADEOUT);
+        }
+    }
+    
     }

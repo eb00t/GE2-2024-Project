@@ -519,10 +519,10 @@ MonoBehaviour:
   CollisionTag: 
   EventReference:
     Guid:
-      Data1: 1943035979
-      Data2: 1088374389
-      Data3: -1055039101
-      Data4: -28888658
+      Data1: -154541305
+      Data2: 1146092183
+      Data3: -1964834921
+      Data4: -1596817186
     Path: event:/Sound Effects/Bug Zap
   Event: 
   PlayEvent: 0

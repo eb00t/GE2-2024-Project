@@ -56,6 +56,11 @@ public class AudioManager : MonoBehaviour
     {
         _ambienceEventInstance.setParameterByName(parameterName, parameterValue);
     }
+
+    public void SetAmbienceArea(AmbienceArea area)
+    {
+        _ambienceEventInstance.setParameterByName("area", (float)area);
+    }
     
     private void CleanUp()
     {

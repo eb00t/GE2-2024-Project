@@ -2,9 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using FMOD.Studio;
+using FMODUnity;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
+using STOP_MODE = FMOD.Studio.STOP_MODE;
 
 public class PickUp : MonoBehaviour
 {
@@ -14,6 +17,9 @@ public class PickUp : MonoBehaviour
     public Vector3 spawnPos;
     public Quaternion spawnRot;
     private RandomText _randomText;
+    private EventInstance _thud;
+    private float _soundCd = 0;
+
     void Start()
     {
         spawnPos = transform.position;
@@ -46,6 +52,12 @@ public class PickUp : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        _soundCd -= Time.deltaTime;
+        _soundCd = Mathf.Clamp(_soundCd, 0, .15f);
+    }
+
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -58,12 +70,17 @@ public class PickUp : MonoBehaviour
             }
         }
     }
-    
+
     private void OnCollisionEnter(Collision other)
     {
-        if (!other.gameObject.CompareTag("Player") && _randomText != null)
+        if (!other.gameObject.CompareTag("Player") || !other.gameObject.CompareTag("InHand"))
         {
-            _randomText._message = Random.Range(0, _randomText._messages.Count);
+            if (_soundCd == 0)
+            {
+                AudioManager.Instance.PlayOneShot(FMODEvents.Instance.MetalThud, transform.position);
+                _soundCd = 0.15f;
+            }
         }
     }
 }
+

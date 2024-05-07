@@ -250,6 +250,7 @@ public class BugAI : MonoBehaviour
         _obstacleAvoidance.enabled = false;
         _noiseWander.enabled = false;
         _wingsAnim.enabled = false;
+        gameObject.AddComponent<BoxCollider>();
         gameObject.AddComponent<Rigidbody>();
         _bugLight.intensity = Mathf.Lerp(15, 0,0.05f * Time.time);
         StartCoroutine(DiePart2());
