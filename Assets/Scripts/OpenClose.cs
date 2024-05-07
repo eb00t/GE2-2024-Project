@@ -25,6 +25,7 @@ public class OpenClose : MonoBehaviour
     public void Close()
     {
         _openMe = false;
+        _button.interactable = true;
         _animator.SetBool(Open, _openMe);
     }
 
