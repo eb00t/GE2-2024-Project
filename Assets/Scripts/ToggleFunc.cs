@@ -3,18 +3,19 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ToggleFunc : MonoBehaviour
 {
-   private TextMeshProUGUI _textMeshProUGUI;
+   private Image _image;
 
    private void Start()
    {
-      _textMeshProUGUI = GetComponent<TextMeshProUGUI>();
+      _image = GetComponent<Image>();
    }
 
    public void Toggle()
    {
-      _textMeshProUGUI.enabled = !_textMeshProUGUI.enabled;
+      _image.enabled = !_image.enabled;
    }
 }

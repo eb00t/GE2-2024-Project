@@ -55,7 +55,7 @@ public class PickUp : MonoBehaviour
     private void Update()
     {
         _soundCd -= Time.deltaTime;
-        _soundCd = Mathf.Clamp(_soundCd, 0, .15f);
+        _soundCd = Mathf.Clamp(_soundCd, 0, .25f);
     }
 
     private void OnTriggerExit(Collider other)
@@ -78,7 +78,7 @@ public class PickUp : MonoBehaviour
             if (_soundCd == 0)
             {
                 AudioManager.Instance.PlayOneShot(FMODEvents.Instance.MetalThud, transform.position);
-                _soundCd = 0.15f;
+                _soundCd = 0.25f;
             }
         }
     }

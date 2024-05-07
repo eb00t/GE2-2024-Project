@@ -10,7 +10,7 @@ public class DeskSound : MonoBehaviour
     private void Update()
     {
         _soundCd -= Time.deltaTime;
-        _soundCd = Mathf.Clamp(_soundCd, 0, .15f);
+        _soundCd = Mathf.Clamp(_soundCd, 0, .25f);
     }
     private void OnCollisionEnter(Collision other)
     {
@@ -19,7 +19,7 @@ public class DeskSound : MonoBehaviour
             if (_soundCd == 0)
             {
                 AudioManager.Instance.PlayOneShot(FMODEvents.Instance.WoodThud, transform.position);
-                _soundCd = 0.15f;
+                _soundCd = 0.25f;
             }
         }
     }
