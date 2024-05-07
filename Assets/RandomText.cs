@@ -24,6 +24,7 @@ public class RandomText : MonoBehaviour
             "AL0_E",
             "...",
             "0000",
+            "ERR0R"
         };
         _message = Random.Range(0, _messages.Count);
         switch (_message)

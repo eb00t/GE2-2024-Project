@@ -9,9 +9,11 @@ public class CameraManager : MonoBehaviour
     private GameObject _player;
     private GameObject _fishCamLayer;
     private GlobalVariables _globalVariables;
+    public bool inFishCam;
     private int _camNumber;
     private bool _preyCam;
     private GameObject _backToRobotButton;
+    private AmbienceArea _area;
 
     void Start()
     {
@@ -26,6 +28,7 @@ public class CameraManager : MonoBehaviour
         _fishCamLayer.SetActive(false);
         _preyCam = false;
         _camNumber = RngFish("pred");
+        inFishCam = false;
     }
 
     public void PredatorCamActivate()
@@ -154,6 +157,10 @@ public class CameraManager : MonoBehaviour
     IEnumerator SwitchCamPred()
     {
         yield return new WaitForSecondsRealtime(0.5f);
+        _fishCamLayer.SetActive(true);
+        inFishCam = true;
+        _area = AmbienceArea.Underwater;
+        AudioManager.Instance.SetAmbienceArea(_area);
         _preyCam = false;
         _player.GetComponent<PlayerController>().controlsEnabled = false;
         fishCam.Priority = 12;
@@ -164,6 +171,10 @@ public class CameraManager : MonoBehaviour
     IEnumerator SwitchCamPrey()
     {
         yield return new WaitForSecondsRealtime(0.5f);
+        _fishCamLayer.SetActive(true);
+        inFishCam = true;
+        _area = AmbienceArea.Underwater;
+        AudioManager.Instance.SetAmbienceArea(_area);
         _preyCam = true;
         _player.GetComponent<PlayerController>().controlsEnabled = false;
         fishCam.Priority = 12;
@@ -174,6 +185,10 @@ public class CameraManager : MonoBehaviour
     IEnumerator SwitchCamRobot()
     {
         yield return new WaitForSecondsRealtime(0.5f);
+        inFishCam = false;
+        _fishCamLayer.SetActive(false);
+        _area = AmbienceArea.Facility;
+        AudioManager.Instance.SetAmbienceArea(_area);
         _player.GetComponent<PlayerController>().controlsEnabled = true;
         fishCam.Priority = 1;
         _backToRobotButton.SetActive(false);
