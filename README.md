@@ -12,7 +12,7 @@ TU984 - Game Design
 [![YouTube](THUMBNAIL LINK)](VIDEO LINK)
 
 ### Description of the Project
-This is an game in which the player plays as a robot in some abandoned underwater structure. The game mainly involves walking around or observing the various behaviours of the fish outside the structure. 
+This is a game in which the player plays as a robot in some abandoned underwater structure. The game mainly involves walking around or observing the various behaviours of the fish outside the structure. 
 
 ### Instructions For Use
 #### As the robot:
@@ -158,7 +158,7 @@ In addition to this, all fish have the Obstacle Avoidance and Harmonic Behaviour
 * [Unity Discussions](https://discussions.unity.com/)
 
 ### What I Am Most Proud Of:
-I am most proud of the overall feel of the game. I spent a lot of time making sure that the game had the feel I was going for. The initial idea for the level came to me in a dream, and I tried my best to make something close to it a reality in the game. All of the game's models are made of primitive shapes, the most complex being a beveled cube. I think I conveyed the feeling of being alone well. I am also proud of getting everything to work. There were many problems I had when developing, especially with the character controller script, so I am glad I was able to iron out most of the issues. In addition to this, getting the fish to interact with each other was very fun. 
+I am most proud of the overall feel of the game. I spent a lot of time making sure that the game had the feel I was going for. The initial idea for the level came to me in a dream, and I tried my best to make something close to it a reality in the game. All the game's models are made of primitive shapes, the most complex being a beveled cube. I think I conveyed the feeling of being alone well. I am also proud of getting everything to work. There were many problems I had when developing, especially with the character controller script, so I am glad I was able to iron out most of the issues. In addition to this, getting the fish to interact with each other was very fun. 
 
 ### What I Learned:
 I learned a lot about some of the dos and don'ts of creating state machines. A problem I had was that I could not change any states at runtime due to the fact they were being updated every frame. I must think of a better way to implement these states without causing a problem such as this. Another thing I learned was about the dangers of feature creep when developing a game. I spent a lot of time developing features that I had not intended to be a part of the experience from the beginning. The ability to throw and pick up objects was a last minute addition, that almost did not work. It is always important to focus on the core features of the game first and foremost. One more example of this was FMOD integration. I was told to use it for another project, and as practice, I decided to implement it into this game. I did it all in one night, and nearly lost a lot of progress due to a merge conflict. Thankfully, everything worked out fine in the end.
