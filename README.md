@@ -9,7 +9,7 @@ C21430996
 TU984 - Game Design
 ### Video:
 
-[![YouTube](THUMBNAIL LINK)](VIDEO LINK)
+[![YouTube](https://i3.ytimg.com/vi/iB1CFWcxGLY/maxresdefault.jpg)]((https://youtu.be/iB1CFWcxGLY))
 
 ### Description of the Project
 This is a game in which the player plays as a robot in some abandoned underwater structure. The game mainly involves walking around or observing the various behaviours of the fish outside the structure. 
