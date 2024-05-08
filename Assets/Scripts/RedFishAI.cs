@@ -126,7 +126,7 @@ public class RedFishAI : MonoBehaviour
             {
                 _hunger--;
                 yield return new WaitForSecondsRealtime(1f);
-                Debug.Log("I am starving " + _hunger);
+                //Debug.Log("I am starving " + _hunger);
             }
 
             switch (_hunger)
@@ -165,7 +165,7 @@ public class RedFishAI : MonoBehaviour
             go.transform.SetParent(gameObject.transform);
         }
         yield return new WaitForSecondsRealtime(Random.Range(1, 4));
-        Debug.Log("A red fish has died.");
+        //Debug.Log("A red fish has died.");
       _animator.SetBool(Shrink, true);
     }
 

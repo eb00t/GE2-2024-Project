@@ -129,7 +129,7 @@ IEnumerator RunAway(GameObject target)
                 
                 foreach (GameObject go in evilFish)
                 {
-                    Debug.Log("Checking for bad guys.");
+                    //Debug.Log("Checking for bad guys.");
                     if (Vector3.Distance(go.transform.position, gameObject.transform.position) < 35f)
                     {
                         StartCoroutine(RunAway(go));
@@ -160,7 +160,7 @@ IEnumerator RunAway(GameObject target)
             go.transform.SetParent(gameObject.transform);
         }
         yield return new WaitForSecondsRealtime(Random.Range(1, 4));
-        Debug.Log("A schooling fish has died.");
+        //Debug.Log("A schooling fish has died.");
         _animator.SetBool(Shrink, true);
      
     }

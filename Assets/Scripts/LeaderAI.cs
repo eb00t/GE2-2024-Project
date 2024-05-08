@@ -148,7 +148,7 @@ public class LeaderAI : MonoBehaviour
                 
                 foreach (GameObject go in evilFish)
                 {
-                    Debug.Log("Checking for bad guys.");
+                    //Debug.Log("Checking for bad guys.");
                     if (Vector3.Distance(go.transform.position, gameObject.transform.position) < 35f)
                     {
                         StartCoroutine(RunAway(go));
@@ -178,7 +178,7 @@ public class LeaderAI : MonoBehaviour
             go.transform.SetParent(gameObject.transform);
         }
         yield return new WaitForSecondsRealtime(Random.Range(1, 4));
-        Debug.Log("A leader has died. State funeral processions are underway.");
+        //Debug.Log("A leader has died. State funeral processions are underway.");
         _animator.SetBool(Shrink, true);
     }
 

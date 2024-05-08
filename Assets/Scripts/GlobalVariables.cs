@@ -74,7 +74,7 @@ public class GlobalVariables : MonoBehaviour
                 allBugs.Add(go);
             }
             bugCount = allBugs.Count;
-            Debug.Log("There are currently " + bugCount + " bugs.");
+            //Debug.Log("There are currently " + bugCount + " bugs.");
             yield return new WaitForSecondsRealtime(counterUpdateTime);
         }
     }
@@ -133,7 +133,7 @@ public class GlobalVariables : MonoBehaviour
             schoolFishCount = allSchoolingFish.Count;
             schoolFishLeaderCount = allSchoolingFishLeaders.Count;
             preyFishCount = allPreyFish.Count;
-            Debug.Log("There are currently " + preyFishCount + " edible fish, " + orangeFishCount + " orange fish and " + (schoolFishCount+ schoolFishLeaderCount) + " schooling fish.");
+            //Debug.Log("There are currently " + preyFishCount + " edible fish, " + orangeFishCount + " orange fish and " + (schoolFishCount+ schoolFishLeaderCount) + " schooling fish.");
             yield return new WaitForSecondsRealtime(counterUpdateTime);
         }
     }
@@ -151,7 +151,7 @@ public class GlobalVariables : MonoBehaviour
             }
 
             predatorFishCount = tempCurrentFish;
-            Debug.Log("There are currently " + predatorFishCount + " inedible fish.");
+            //Debug.Log("There are currently " + predatorFishCount + " inedible fish.");
             yield return new WaitForSecondsRealtime(counterUpdateTime);
         }
     }
@@ -180,7 +180,7 @@ public class GlobalVariables : MonoBehaviour
     public void ToggleLightDeath()
     {
         canBugsDieFromLights = !canBugsDieFromLights;
-        Debug.Log(canBugsDieFromLights);
+        //Debug.Log(canBugsDieFromLights);
         foreach (GameObject go in allBugs)
         {
             go.GetComponent<BugAI>().canDieFromLights = canBugsDieFromLights;
@@ -190,7 +190,7 @@ public class GlobalVariables : MonoBehaviour
     public void FearlessFish() //This doesn't work.
     {
         fishAreFearful = !fishAreFearful;
-        Debug.Log("Fish Fear = " + fishAreFearful);
+        //Debug.Log("Fish Fear = " + fishAreFearful);
         foreach (GameObject go in allPreyFish)
         {
             if (go.GetComponent<FishAI>() != null)
@@ -214,7 +214,7 @@ public class GlobalVariables : MonoBehaviour
     public void CanFishEat()
     {
         canRedFishEat = !canRedFishEat;
-        Debug.Log("Red Fish Eat?" + canRedFishEat);
+        //Debug.Log("Red Fish Eat?" + canRedFishEat);
         foreach (GameObject go in allPredatorFish)
         {
             go.GetComponent<RedFishAI>().canEat = canRedFishEat;
@@ -224,7 +224,7 @@ public class GlobalVariables : MonoBehaviour
     public void CanFishStarve()
     {
         canRedFishStarve = !canRedFishStarve;
-        Debug.Log("Red Fish Starve? " + canRedFishStarve);
+        //Debug.Log("Red Fish Starve? " + canRedFishStarve);
         foreach (GameObject go in allPredatorFish)
         {
             go.GetComponent<RedFishAI>().canStarve = canRedFishStarve;
@@ -234,7 +234,7 @@ public class GlobalVariables : MonoBehaviour
     public void OmnicidalFish()
     {
         redFishOmnicidal = !redFishOmnicidal;
-        Debug.Log("Red Fish Eat Everything? " + redFishOmnicidal);
+        //Debug.Log("Red Fish Eat Everything? " + redFishOmnicidal);
         foreach (GameObject go in allPredatorFish)
         {
             go.GetComponent<RedFishAI>().isOmnicidal = redFishOmnicidal;
@@ -244,7 +244,7 @@ public class GlobalVariables : MonoBehaviour
 
     public void KillAllBugs()
     {
-        Debug.Log("Killed all bugs.");
+        //Debug.Log("Killed all bugs.");
         foreach (GameObject go in allBugs)
         {
             go.GetComponent<BugAI>().ActuallyDieForReal();
@@ -253,7 +253,7 @@ public class GlobalVariables : MonoBehaviour
 
     public void KillAllPreyFish()
     {
-        Debug.Log("Killed all prey fish. The predators are going to be hungry.");
+        //Debug.Log("Killed all prey fish. The predators are going to be hungry.");
         foreach (GameObject go in allPreyFish)
         {
             if (go.GetComponent<FishAI>() != null)
@@ -273,7 +273,7 @@ public class GlobalVariables : MonoBehaviour
 
     public void KillAllPredatorFish()
     {
-        Debug.Log("Killed all predator fish. The prey were praying for this.");
+        //Debug.Log("Killed all predator fish. The prey were praying for this.");
         foreach (GameObject go in allPredatorFish)
         {
             go.GetComponent<RedFishAI>().DieStart();

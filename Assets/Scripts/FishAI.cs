@@ -103,7 +103,7 @@ public class FishAI : MonoBehaviour
                 
                 foreach (GameObject go in evilFish)
                 { 
-                    Debug.Log("Checking for bad guys.");
+                    //Debug.Log("Checking for bad guys.");
                     if (Vector3.Distance(go.transform.position, gameObject.transform.position) < 50f)
                     {
                         StartCoroutine(RunAway(go));
@@ -133,7 +133,7 @@ public class FishAI : MonoBehaviour
             go.transform.SetParent(gameObject.transform);
         }
         yield return new WaitForSecondsRealtime(Random.Range(1, 4));
-        Debug.Log("Orange fish has died.");
+        //Debug.Log("Orange fish has died.");
         _animator.SetBool(Shrink, true);
      
     }

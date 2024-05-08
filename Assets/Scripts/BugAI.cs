@@ -78,7 +78,7 @@ public class BugAI : MonoBehaviour
         _animator = GetComponentInChildren<Animator>();
     }
     
-    void FixedUpdate()
+    void Update()
     {
         _bugLight.intensity = Mathf.Lerp(0, 15,0.05f * Time.time);
         changeStateTimer -= Time.deltaTime;

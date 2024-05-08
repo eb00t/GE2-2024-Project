@@ -129,7 +129,7 @@ public class CameraManager : MonoBehaviour
                 break;
         }
 
-        Debug.Log(_camNumber);
+//        Debug.Log(_camNumber);
     }
 
 
