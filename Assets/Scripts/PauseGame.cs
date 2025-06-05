@@ -9,26 +9,30 @@ using UnityEngine.Serialization;
 
 public class PauseGame : MonoBehaviour
 {
-    private PlayerInputManager _playerInputManager;
-    private bool _isPaused = false;
-    private Volume _volume;
-    private CameraManager _cameraManager;
+    [SerializeField]private PlayerInputManager _playerInputManager;
+    public bool isStarted;
+    [SerializeField] private bool _isPaused = false;
+    [SerializeField] public Volume _volume;
+    [SerializeField]private CameraManager _cameraManager;
     public VolumeProfile unpause, pause;
-    private PlayerController _playerController;
-    private CinemachineInputProvider _fishCamInputProvider;
-    private GameObject _menuCanvas;
+    [SerializeField]private PlayerController _playerController;
+    [SerializeField]private CinemachineInputProvider _fishCamInputProvider;
+    [SerializeField]private GameObject _menuCanvas, _startCanvas;
     public GamePaused paused;
-    private EventInstance _pauseSounds;
+    [SerializeField] public EventInstance _pauseSounds;
 
     
    void Start()
    {
        _isPaused = false;
+       isStarted = false;
        _pauseSounds = AudioManager.Instance.CreateEventInstance(FMODEvents.Instance.Pause);
+       _pauseSounds.start();
        _playerInputManager = PlayerInputManager.Instance;
        _volume = GameObject.FindWithTag("GlobalVolume").GetComponent<Volume>();
        _playerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
        _playerController.controlsEnabled = true;
+       _startCanvas = GameObject.FindWithTag("StartCanvas");
        _menuCanvas = GameObject.FindWithTag("MenuCanvas");
        _fishCamInputProvider = GameObject.FindWithTag("FishCam").GetComponent<CinemachineInputProvider>();
        _cameraManager = GameObject.FindWithTag("CameraManager").GetComponent<CameraManager>();
@@ -77,6 +81,23 @@ public class PauseGame : MonoBehaviour
             _menuCanvas.SetActive(false);
             _volume.gameObject.SetActive(false);
             Cursor.lockState = CursorLockMode.Locked;
+            _fishCamInputProvider.enabled = true;
+        }
+
+        if (isStarted == false)
+        {
+            _playerController.controlsEnabled = false;
+            _playerController.isMoving = false; 
+            _startCanvas.SetActive(true);
+            _menuCanvas.SetActive(false);
+            _volume.gameObject.SetActive(true);
+            Cursor.lockState = CursorLockMode.None;
+            _fishCamInputProvider.enabled = false;
+            _playerController._cmPerlin.m_FrequencyGain = 0;
+        } 
+        else if (isStarted)
+        {
+            _startCanvas.SetActive(false);
             _fishCamInputProvider.enabled = true;
         }
         

@@ -24,6 +24,7 @@ TagManager:
   - CameraManager
   - LandingPoint
   - InHand
+  - StartCanvas
   layers:
   - Default
   - TransparentFX
